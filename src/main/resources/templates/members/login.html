@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<body>
+<div class="container">
+    <h4>로그인</h4>
+    <form action="/login/" method="post">
+        <div class="form-group">
+            <input type="text" id="email" name="email" placeholder="이메일">
+            <br><input type="text" id="pw" name="pw" placeholder="비밀번호">
+        </div>
+        <p>
+            <input type="submit" id="check" value="확인">
+        </p>
+    </form>
+    비밀번호를 잊었다면?
+    <style>
+        #email {
+            width: 80%;
+            height: 50px;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: 2px solid black;
+        }
+        #pw {
+            width: 80%;
+            height: 50px;
+             border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: 2px solid gray;
+        }
+        #check {
+            width: 50%;
+            height: 30px;
+            background-color: #87ceeb;
+            border-color: 	#6495ed;
+        }
+        h4{
+            text-align: center;
+            font-size: 30px;
+        }
+        div{
+            text-align: center;
+        }
+    </style>
+</div>
+
+</body>
+
+</html>
