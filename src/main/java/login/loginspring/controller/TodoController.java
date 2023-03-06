@@ -63,14 +63,19 @@ public class TodoController {
         return "profile_edit";
     }
 
+//    @PostMapping("/profile_edit")
+//    public String ProfileUpdate (@RequestParam String username, @RequestParam MultipartFile file, Authentication authentication) throws IOException {
+//        if(!file.isEmpty()){
+//            String fullPath = "/static/img/" + file.getOriginalFilename();
+//            System.out.println("파일 저장 fullPath = " + fullPath);
+//            file.transferTo(new File(fullPath));
+//        }
+//        memberService.updateUser(authentication);
+//        return "redirect:/todolist";
+//    }
+
     @PostMapping("/profile_edit")
-    public String ProfileUpdate (@RequestParam String username, @RequestParam MultipartFile file, Authentication authentication) throws IOException {
-        if(!file.isEmpty()){
-            String fullPath = "/static/img/" + file.getOriginalFilename();
-            System.out.println("파일 저장 fullPath = " + fullPath);
-            file.transferTo(new File(fullPath));
-        }
-        memberService.updateUser(authentication);
+    public String ProfileUpdate (){
         return "redirect:/todolist";
     }
 }
