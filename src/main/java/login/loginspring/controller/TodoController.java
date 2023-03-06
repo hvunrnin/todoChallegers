@@ -2,6 +2,7 @@ package login.loginspring.controller;
 
 import login.loginspring.domain.Member;
 import login.loginspring.service.CalenderService;
+import login.loginspring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -9,14 +10,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 @Controller
 public class TodoController {
     private final CalenderService calenderService;
+    MemberService memberService;
     LocalDate now = LocalDate.now();
     int current_month = now.getMonthValue();
     int current_year = now.getYear();
@@ -55,5 +61,16 @@ public class TodoController {
     @GetMapping("/profile_edit")
     public String ProfileEdit(Model model){
         return "profile_edit";
+    }
+
+    @PostMapping("/profile_edit")
+    public String ProfileUpdate (@RequestParam String username, @RequestParam MultipartFile file, Authentication authentication) throws IOException {
+        if(!file.isEmpty()){
+            String fullPath = "/static/img/" + file.getOriginalFilename();
+            System.out.println("파일 저장 fullPath = " + fullPath);
+            file.transferTo(new File(fullPath));
+        }
+        memberService.updateUser(authentication);
+        return "redirect:/todolist";
     }
 }

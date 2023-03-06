@@ -6,8 +6,10 @@ import login.loginspring.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -46,6 +48,17 @@ public class MemberService implements UserDetailsService {
         member.setAppendDate(localTime);
         member.setUpdateDate(localTime);
         memberRepository.save(member);
+    }
+
+    public void updateUser(Authentication authentication){
+        String username = authentication.getName();
+        System.out.println(username);
+        Member member = memberRepository.findById(username).get();
+//        member.setUserName();
+//        member.ifPresent(member1 -> {
+//            member1.setUserName();
+//        });
+
     }
 
     @Override
