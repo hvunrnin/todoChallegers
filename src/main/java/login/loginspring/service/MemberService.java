@@ -1,0 +1,64 @@
+package login.loginspring.service;
+
+
+import login.loginspring.domain.Member;
+import login.loginspring.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+
+import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+@Transactional
+public class MemberService implements UserDetailsService {
+
+    private final MemberRepository memberRepository;
+
+    @Autowired
+    public MemberService(MemberRepository memberRepository){
+        this.memberRepository = memberRepository;
+    }
+
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date localTime = new Date();
+
+//    회원가입 시 db에 회원 저장
+    @Transactional
+    public void joinUser(Member member){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        member.setUserPw(passwordEncoder.encode(member.getPassword()));
+        member.setUserAuth("ROLE_USER");
+        member.setAppendDate(localTime);
+        member.setUpdateDate(localTime);
+        memberRepository.save(member);
+    }
+
+    @Override
+    public Member loadUserByUsername(String userId) throws UsernameNotFoundException {
+
+        Optional<Member> optionalMember = memberRepository.findById(userId);
+        if (!optionalMember.isPresent()) {
+            throw new UsernameNotFoundException("회원정보가 존재하지 않습니다");
+        }
+
+        Member member = optionalMember.get();
+
+        return member;
+    }
+}
+

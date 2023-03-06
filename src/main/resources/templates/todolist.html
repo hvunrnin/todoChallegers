@@ -36,7 +36,7 @@
       <section class="profile">
         <img class="profile_img" src="/img/profile_img.jpg" >
         <div class="profile_des">
-          <p th:text="${id}">profile id</p>
+          <p th:text="${name}">profile id</p>
           <p>한줄소개</p>
         </div>
         <!-- 프로필(사진, 닉네임, 한줄소개) -->
@@ -51,7 +51,7 @@
 <!--              <input type="text" id="year" class="form-control" th:value="${year}"/>년-->
 <!--              <input type="text" id="month" class="form-control" th:value="${month}"/>월-->
             </div>
-            <form action="/todolist?id=so0biin" method="post" class="month-change">
+            <form action="/todolist" method="post" class="month-change">
               <button type="submit" name="diff" value="-1" class="btn"><i class="fa fa-chevron-left"></i></button>
               <button type="submit" name="diff" value="1" class="btn"><i class="fa fa-chevron-right"></i></button>
             </form>
@@ -74,6 +74,8 @@
         </div>
       </section>
       <section class="feed">
+        <a href="/profile_edit">프로필 수정</a>
+        <a href="/logout_proc">로그아웃</a>
         <!-- feed 은화언니 부분 -->
       </section>
     </main>
@@ -85,14 +87,6 @@
     $("#tb_body").html(h.join(""));
   </script>
   <script>
-<!--        async function fetchHtmlAsText(url) {-->
-<!--          return await (await fetch(url)).text();-->
-<!--        }-->
-
-<!--        async function importPage(target) {-->
-<!--            document.querySelector('#' + target).innerHTML = await fetchHtmlAsText(target);-->
-<!--        }-->
-
-<!--        importPage("calender");-->
+    let l = /todolist/ + ${id}
   </script>
 </html>

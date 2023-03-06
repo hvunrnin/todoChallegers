@@ -2,55 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <!--<link rel="stylesheet" href="/css/home.css">-->
 <meta charset="UTF-8">
+<head>
+  <link rel="stylesheet" href="/css/homestyle.css">
+  <link rel="stylesheet" href="/css/btn.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+          href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Poppins:wght@400;700&display=swap"
+          rel="stylesheet"
+  >
+</head>
 
 <body>
-<div class="container">
+  <div class="contents">
     <div class="intro">
-        <img src="/images/pic.png"
-             width="20%">
-        <h1>todo challenger</h1>
-        <h2>할 일을 작성, 계획, 관리하세요</h2>
+      <img src="/img/pic.png" width="100px">
+      <h1>todo challenger</h1>
+      <h2>할 일을 작성, 계획, 관리하세요</h2>
     </div>
     <div class="start">
-        <a href="/login/">로그인</a>
-        <br><a href="/members/new">회원가입</a>
+      <button type="button" class="w-btn-outline w-btn-blue-outline" onclick="location.href='login'">로그인</button>
+      <button type="button" class="w-btn-outline w-btn-blue-outline" onclick="location.href='signUp'">회원가입</button>
     </div>
-    <style>
-        .container{
-          margin-top:200px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 200px;
-        }
-
-        .intro{
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-
-        h1{
-          margin: 0;
-          font-size: 100px;
-        }
-
-        h2{
-          font-size: 20px;
-          color: #535252;
-        }
-
-        p{
-          position: absolute;
-          top: 80%;
-          text-align: center;
-        }
-
-        .start{
-        text-align: center;
-        }
-    </style>
-</div> <!-- /container -->
+  </div> <!-- /container -->
 </body>
+
+<script>
+  document.querySelectorAll('.button').forEach(button => button.innerHTML = '<div><span>' + button.textContent.trim().split('').join('</span><span>') + '</span></div>');
+</script>
 </html>
