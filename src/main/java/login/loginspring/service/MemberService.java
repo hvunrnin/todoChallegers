@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,15 +51,22 @@ public class MemberService implements UserDetailsService {
         memberRepository.save(member);
     }
 
-    public void updateUser(Authentication authentication){
-        String username = authentication.getName();
-        System.out.println(username);
-        Member member = memberRepository.findById(username).get();
+    public void updateUser(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails) principal;
+        String userId = ((UserDetails) principal).getUsername();
+        System.out.println(userId);
+        Member member = memberRepository.findById(userId).get();
+
+        memberRepository.save(member);
+        System.out.println(member.getUserName());
+//        member.setUserName(member.);
+//        member.setUserName(username);
+//        Member member = memberRepository.findById(username).get();
 //        member.setUserName();
 //        member.ifPresent(member1 -> {
 //            member1.setUserName();
 //        });
-
     }
 
     @Override

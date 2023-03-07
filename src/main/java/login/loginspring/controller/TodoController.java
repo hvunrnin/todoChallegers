@@ -10,26 +10,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 
-import java.io.File;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 @Controller
 public class TodoController {
     private final CalenderService calenderService;
-    MemberService memberService;
+    private final MemberService memberService;
     LocalDate now = LocalDate.now();
     int current_month = now.getMonthValue();
     int current_year = now.getYear();
 
     @Autowired
-    public TodoController(CalenderService calenderService) {
+    public TodoController(CalenderService calenderService, MemberService memberService) {
         this.calenderService = calenderService;
+        this.memberService = memberService;
     }
 
 
@@ -75,7 +72,8 @@ public class TodoController {
 //    }
 
     @PostMapping("/profile_edit")
-    public String ProfileUpdate (){
+    public String ProfileUpdate (Member member){
+        memberService.updateUser();
         return "redirect:/todolist";
     }
 }

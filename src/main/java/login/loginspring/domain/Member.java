@@ -23,13 +23,6 @@ public class Member implements UserDetails {
     private Date appendDate; //정보 추가 날짜
     private Date updateDate; //정보 업데이트 날짜
 
-//    public int getUserNo() {
-//        return userNo;
-//    }
-//
-//    public void setUserNo(int userNo) {
-//        this.userNo = userNo;
-//    }
 
     public String getUserId() {
         return userId;
