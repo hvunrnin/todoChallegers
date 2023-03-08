@@ -5,7 +5,10 @@ import login.loginspring.domain.updateMember;
 import login.loginspring.service.CalenderService;
 import login.loginspring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +21,9 @@ import java.util.ArrayList;
 
 @Controller
 public class TodoController {
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
     private final CalenderService calenderService;
     private final MemberService memberService;
     LocalDate now = LocalDate.now();
@@ -67,6 +73,8 @@ public class TodoController {
     @PostMapping("/profile_edit")
     public String ProfileUpdate (updateMember member){
         memberService.updateUser(member);
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(member., member.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         return "redirect:/todolist";
     }
 }
