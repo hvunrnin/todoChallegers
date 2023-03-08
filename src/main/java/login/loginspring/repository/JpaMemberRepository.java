@@ -26,13 +26,6 @@ public class JpaMemberRepository implements MemberRepository{
                 .setParameter("id", id).getResultList();
         return result.stream().findAny();
     }
-
-
-//    @Override
-//    public Optional<Member> findByNo(Integer no) {
-//        Member member = em.find(Member.class, no);
-//        return Optional.ofNullable(member);
-//    }
 //
 //    @Override
 //    public Optional<Member> findByName(String name) {

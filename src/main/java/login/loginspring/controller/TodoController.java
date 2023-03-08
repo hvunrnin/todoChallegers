@@ -1,6 +1,7 @@
 package login.loginspring.controller;
 
 import login.loginspring.domain.Member;
+import login.loginspring.domain.updateMember;
 import login.loginspring.service.CalenderService;
 import login.loginspring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,9 @@ public class TodoController {
 
     @RequestMapping("/todolist")
     public String userAccess(Model model, Authentication authentication){
-        Member member = (Member) authentication.getPrincipal();
+        System.out.println("1");
+        Member member = (Member) authentication.getPrincipal(); //로그인된 사용자 정보
+        System.out.println(member.getUserName());
         model.addAttribute("name", member.getUserName());
 
         ArrayList<String> cal = calenderService.changeYearMonth(current_year, current_month);
@@ -48,6 +51,7 @@ public class TodoController {
     @PostMapping("/todolist")
     public String ButtonControl(Member member, Model model, DiffController diff){
 //      String name = member.getUserName();
+        System.out.println("2");
         int differ = Integer.parseInt(diff.getDiff());
         int[] date = calenderService.changeMonth(current_year, current_month, differ);
         current_year = date[0];
@@ -60,20 +64,9 @@ public class TodoController {
         return "profile_edit";
     }
 
-//    @PostMapping("/profile_edit")
-//    public String ProfileUpdate (@RequestParam String username, @RequestParam MultipartFile file, Authentication authentication) throws IOException {
-//        if(!file.isEmpty()){
-//            String fullPath = "/static/img/" + file.getOriginalFilename();
-//            System.out.println("파일 저장 fullPath = " + fullPath);
-//            file.transferTo(new File(fullPath));
-//        }
-//        memberService.updateUser(authentication);
-//        return "redirect:/todolist";
-//    }
-
     @PostMapping("/profile_edit")
-    public String ProfileUpdate (Member member){
-        memberService.updateUser();
+    public String ProfileUpdate (updateMember member){
+        memberService.updateUser(member);
         return "redirect:/todolist";
     }
 }

@@ -2,10 +2,13 @@ package login.loginspring.service;
 
 
 import login.loginspring.domain.Member;
+import login.loginspring.domain.updateMember;
 import login.loginspring.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
@@ -30,6 +34,7 @@ import java.util.Optional;
 @Transactional
 public class MemberService implements UserDetailsService {
 
+    HttpServletRequest request;
     private final MemberRepository memberRepository;
 
     @Autowired
@@ -51,22 +56,20 @@ public class MemberService implements UserDetailsService {
         memberRepository.save(member);
     }
 
-    public void updateUser(){
+    @Transactional
+    public void updateUser(updateMember UpdateMmember){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails = (UserDetails) principal;
         String userId = ((UserDetails) principal).getUsername();
-        System.out.println(userId);
+//        System.out.println(userId);
         Member member = memberRepository.findById(userId).get();
-
+//        System.out.println(member.getUserName());
+//        System.out.println(UpdateMmember.getUpdateName());
+        member.setUserName(UpdateMmember.getUpdateName());
         memberRepository.save(member);
+
         System.out.println(member.getUserName());
-//        member.setUserName(member.);
-//        member.setUserName(username);
-//        Member member = memberRepository.findById(username).get();
-//        member.setUserName();
-//        member.ifPresent(member1 -> {
-//            member1.setUserName();
-//        });
+
     }
 
     @Override
