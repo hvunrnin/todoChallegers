@@ -33,6 +33,7 @@ public class MemberService implements UserDetailsService {
     @Transactional
     public void joinUser(Member member){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        member.setUserRpw(member.getUserPw());
         member.setUserPw(passwordEncoder.encode(member.getPassword()));
         member.setUserAuth("ROLE_USER");
         member.setAppendDate(localTime);
@@ -41,7 +42,7 @@ public class MemberService implements UserDetailsService {
     }
 
     @Transactional
-    public void updateUser(updateMember UpdateMember){
+    public Member updateUser(updateMember UpdateMember){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails = (UserDetails) principal;
         String userId = ((UserDetails) principal).getUsername();
@@ -54,6 +55,7 @@ public class MemberService implements UserDetailsService {
 
         System.out.println(member.getUserName());
 
+        return member;
 
     }
 

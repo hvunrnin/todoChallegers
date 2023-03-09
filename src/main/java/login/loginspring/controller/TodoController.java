@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,13 +23,14 @@ import java.util.ArrayList;
 @Controller
 public class TodoController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
     private final CalenderService calenderService;
     private final MemberService memberService;
     LocalDate now = LocalDate.now();
     int current_month = now.getMonthValue();
     int current_year = now.getYear();
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     public TodoController(CalenderService calenderService, MemberService memberService) {
@@ -56,7 +58,6 @@ public class TodoController {
 
     @PostMapping("/todolist")
     public String ButtonControl(Member member, Model model, DiffController diff){
-//      String name = member.getUserName();
         System.out.println("2");
         int differ = Integer.parseInt(diff.getDiff());
         int[] date = calenderService.changeMonth(current_year, current_month, differ);
@@ -71,10 +72,14 @@ public class TodoController {
     }
 
     @PostMapping("/profile_edit")
-    public String ProfileUpdate (updateMember member){
-        memberService.updateUser(member);
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(member., member.getPassword()));
+    public String ProfileUpdate (updateMember updatemember){
+        Member member = memberService.updateUser(updatemember);
+        System.out.println(member.getUserName());
+        System.out.println(member.getUsername() + member.getPassword());
+
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(member.getUsername(), member.getUserRpw()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        System.out.println(member.getUserName());
         return "redirect:/todolist";
     }
 }
