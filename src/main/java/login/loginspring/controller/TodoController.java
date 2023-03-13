@@ -9,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,10 +44,11 @@ public class TodoController {
         Member member = (Member) authentication.getPrincipal(); //로그인된 사용자 정보
         System.out.println(member.getUserName());
         model.addAttribute("name", member.getUserName());
-
+        model.addAttribute("message", member.getUserMessage());
         ArrayList<String> cal = calenderService.changeYearMonth(current_year, current_month);
-        ArrayList<String> h_cal = calenderService.renderCalender(cal);
-        model.addAttribute("h_cal", h_cal);
+        model.addAttribute("cal", cal);
+//        ArrayList<String> h_cal = calenderService.renderCalender(cal);
+//        model.addAttribute("h_cal", h_cal);
         model.addAttribute("year", current_year);
         model.addAttribute("month", current_month);
 
@@ -57,14 +57,32 @@ public class TodoController {
 
 
     @PostMapping("/todolist")
-    public String ButtonControl(Member member, Model model, DiffController diff){
-        System.out.println("2");
-        int differ = Integer.parseInt(diff.getDiff());
-        int[] date = calenderService.changeMonth(current_year, current_month, differ);
-        current_year = date[0];
-        current_month = date[1];
+    public String ButtonControl(Member member, Model model, DiffForm diff, DateForm btn_date){
+        int differ;
+        if(diff.getDiff()==null){
+            differ = 0;
+        }
+        else{
+            differ = Integer.parseInt(diff.getDiff());
+        }
+
+        String feed_date = String.valueOf(btn_date.getFeed_date());
+        System.out.println("11"+differ);
+        System.out.println("22"+feed_date);
+        if(differ!=0){
+            System.out.println("diff");
+            int[] date = calenderService.changeMonth(current_year, current_month, differ);
+            current_year = date[0];
+            current_month = date[1];
+        }
+        else if (feed_date!=null) {
+            System.out.println("feed");
+            System.out.println(feed_date);
+            model.addAttribute("feed_date", feed_date);
+        }
         return "redirect:/todolist"; //접근 html
     }
+
 
     @GetMapping("/profile_edit")
     public String ProfileEdit(Model model){
@@ -74,12 +92,8 @@ public class TodoController {
     @PostMapping("/profile_edit")
     public String ProfileUpdate (updateMember updatemember){
         Member member = memberService.updateUser(updatemember);
-        System.out.println(member.getUserName());
-        System.out.println(member.getUsername() + member.getPassword());
-
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(member.getUsername(), member.getUserRpw()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println(member.getUserName());
         return "redirect:/todolist";
     }
 }

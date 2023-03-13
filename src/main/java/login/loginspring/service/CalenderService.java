@@ -79,7 +79,7 @@ public class CalenderService {
                 h_calender.add("<td>"+data.get(i)+"</td>");
             }
             else{
-                h_calender.add("<td>"+"<button type=\"button\" class=\"c_btn\"></button>"+data.get(i)+"</td>");
+                h_calender.add("<td>"+"<button type=\"button\" value=\"data.get(i)\" id=\"date\" class=\"c_btn\" onclick=\"display()\"></button>"+data.get(i)+"</td>");
             }
         }
         h_calender.add("/<tr>");

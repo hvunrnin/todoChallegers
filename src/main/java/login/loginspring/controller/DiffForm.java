@@ -1,6 +1,6 @@
 package login.loginspring.controller;
 
-public class DiffController {
+public class DiffForm {
     private String diff;
 
     public String getDiff() {

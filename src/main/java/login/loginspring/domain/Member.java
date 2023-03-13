@@ -21,10 +21,12 @@ public class Member implements UserDetails {
     private String userRpw;
 
     private String userName; //이름
+
+    private String userMessage;
+
     private String userAuth; //사용자 권한
     private Date appendDate; //정보 추가 날짜
     private Date updateDate; //정보 업데이트 날짜
-
     public String getUserId() {
         return userId;
     }
@@ -55,6 +57,14 @@ public class Member implements UserDetails {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getUserMessage() {
+        return userMessage;
+    }
+
+    public void setUserMessage(String userMessage) {
+        this.userMessage = userMessage;
     }
 
     public String getUserAuth() {

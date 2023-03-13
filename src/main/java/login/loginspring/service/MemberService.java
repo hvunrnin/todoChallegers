@@ -46,13 +46,10 @@ public class MemberService implements UserDetailsService {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails = (UserDetails) principal;
         String userId = ((UserDetails) principal).getUsername();
-//        System.out.println(userId);
         Member member = memberRepository.findById(userId).get();
-//        System.out.println(member.getUserName());
-//        System.out.println(UpdateMember.getUpdateName());
         member.setUserName(UpdateMember.getUpdateName());
+        member.setUserMessage(UpdateMember.getUpdateMessage());
         memberRepository.save(member);
-
         System.out.println(member.getUserName());
 
         return member;

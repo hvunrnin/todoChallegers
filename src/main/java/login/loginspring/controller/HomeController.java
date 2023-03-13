@@ -45,5 +45,4 @@ public class HomeController {
         memberService.joinUser(member);
         return "redirect:/login"; //로그인 구현 예정
     }
-
 }

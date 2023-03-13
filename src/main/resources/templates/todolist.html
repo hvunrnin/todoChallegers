@@ -37,7 +37,7 @@
         <img class="profile_img" src="/img/profile_img.jpg" >
         <div class="profile_des">
           <p th:text="${name}">profile id</p>
-          <p>한줄소개</p>
+          <p th:text="${message}">profile message</p>
         </div>
         <!-- 프로필(사진, 닉네임, 한줄소개) -->
       </section>
@@ -76,17 +76,49 @@
       <section class="feed">
         <a href="/profile_edit">프로필 수정</a>
         <a href="/logout_proc">로그아웃</a>
+        <p th:text="${feed_date}">feed_date</p>
         <!-- feed 은화언니 부분 -->
       </section>
     </main>
   </body>
   <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js" integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-  <script th:inline="javascript">
-    let h = [[${h_cal}]];
-    $("#tb_body").html(h.join(""));
-  </script>
   <script>
-    let l = /todolist/ + ${id}
-  </script>
+  let year=[[${year}]];
+  let month=[[${month}]];
+  console.log(year);
+
+  function render_cal(year, month){
+    let data=[[${cal}]];
+    let h=[];
+
+    for(let i=0; i<data.length; i++){
+      if(i==0){
+        h.push('<tr>');
+      }
+      else if(i%7==0){
+        h.push('</tr>');
+        h.push('<tr>');
+      }
+
+      if(data[i]==undefined){
+        h.push('<td></td>');
+      }
+      else{
+        h.push('<td><form action="/todolist" method="post"><button type="submit" name="feed_date" class="c_btn" value="'+year+'-'+month+'-'+data[i]+'"></button></form>'+data[i]+'</td>');
+      }
+    }
+    console.log(h);
+    $("#tb_body").html(h.join(""));
+  }
+
+  render_cal(year, month);
+
+  function display(year, month, date){
+    console.log('ㅎㅇ');
+    if(date != null){
+      alert(year+"년"+month+"월"+date+"일");
+    }
+  }
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 </html>
