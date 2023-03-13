@@ -11,18 +11,18 @@
             rel="stylesheet"
     >
 </head>
+
 <body>
 <div class="container">
     <h4>프로필 수정</h4>
     <form action="/profile_edit" method="post">
         <div class="form-group">
             <input type="file" id="img" name="UpdateImg" multiple="multiple">
-            <input type="text" id="name" name="UpdateName" placeholder="이름">
-            <input type="text" id="message" name="UpdateMessage" placeholder="한줄소개">
+            <input type="text" id="name" name="UpdateName" th:value="${name}" placeholder="닉네임">
+            <input type="text" id="message" name="UpdateMessage" th:value="${message}" placeholder="한줄소개">
         </div>
         <button type="submit" class="w-btn-outline w-btn-blue-outline">저장하기</button>
     </form>
 </div>
 </body>
-
 </html>

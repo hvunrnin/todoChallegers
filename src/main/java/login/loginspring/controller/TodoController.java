@@ -25,8 +25,11 @@ public class TodoController {
     private final CalenderService calenderService;
     private final MemberService memberService;
     LocalDate now = LocalDate.now();
-    int current_month = now.getMonthValue();
     int current_year = now.getYear();
+    int current_month = now.getMonthValue();
+    int current_date = now.getDayOfMonth();
+    String today = current_year+"-"+current_month+"-"+current_date;
+    String feed_date = today;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -37,20 +40,16 @@ public class TodoController {
         this.memberService = memberService;
     }
 
-
-    @RequestMapping("/todolist")
-    public String userAccess(Model model, Authentication authentication){
-        System.out.println("1");
+    @GetMapping("/todolist")
+    public String main(Model model, Authentication authentication){
         Member member = (Member) authentication.getPrincipal(); //로그인된 사용자 정보
-        System.out.println(member.getUserName());
         model.addAttribute("name", member.getUserName());
         model.addAttribute("message", member.getUserMessage());
         ArrayList<String> cal = calenderService.changeYearMonth(current_year, current_month);
         model.addAttribute("cal", cal);
-//        ArrayList<String> h_cal = calenderService.renderCalender(cal);
-//        model.addAttribute("h_cal", h_cal);
         model.addAttribute("year", current_year);
         model.addAttribute("month", current_month);
+        model.addAttribute("feed_date", feed_date);
 
         return "todolist";
     }
@@ -66,26 +65,24 @@ public class TodoController {
             differ = Integer.parseInt(diff.getDiff());
         }
 
-        String feed_date = String.valueOf(btn_date.getFeed_date());
-        System.out.println("11"+differ);
-        System.out.println("22"+feed_date);
         if(differ!=0){
-            System.out.println("diff");
             int[] date = calenderService.changeMonth(current_year, current_month, differ);
             current_year = date[0];
             current_month = date[1];
         }
+
         else if (feed_date!=null) {
-            System.out.println("feed");
-            System.out.println(feed_date);
-            model.addAttribute("feed_date", feed_date);
+            feed_date = String.valueOf(btn_date.getFeed_date());
         }
         return "redirect:/todolist"; //접근 html
     }
 
 
     @GetMapping("/profile_edit")
-    public String ProfileEdit(Model model){
+    public String ProfileEdit(Model model, Authentication authentication){
+        Member member = (Member) authentication.getPrincipal(); //로그인된 사용자 정보
+        model.addAttribute("name", member.getUserName());
+        model.addAttribute("message", member.getUserMessage());
         return "profile_edit";
     }
 
