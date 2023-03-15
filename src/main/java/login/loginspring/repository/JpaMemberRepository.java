@@ -20,6 +20,7 @@ public class JpaMemberRepository implements MemberRepository{
         em.persist(member);
         return member;
     }
+
     @Override
     public Optional<Member> findById(String id) {
         List<Member> result = em.createQuery("select m from Member m where m.id = :id", Member.class)

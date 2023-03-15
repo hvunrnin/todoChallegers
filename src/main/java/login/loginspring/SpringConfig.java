@@ -1,8 +1,9 @@
 package login.loginspring;
 
-import login.loginspring.repository.JpaMemberRepository;
-import login.loginspring.repository.MemberRepository;
+import login.loginspring.repository.*;
+import login.loginspring.service.GoalService;
 import login.loginspring.service.MemberService;
+import login.loginspring.service.TodoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,7 +21,17 @@ public class SpringConfig {
         return new MemberService(memberRepository());
     }
     @Bean
+    public GoalService goalService() { return new GoalService(goalRepository()); }
+    @Bean
+    public TodoService todoService() {return new TodoService(todoRepository());}
+
+    @Bean
     public MemberRepository memberRepository(){
         return new JpaMemberRepository(em);
     }
+    @Bean
+    public GoalRepository goalRepository(){ return new JpaGoalRepository(em);}
+    @Bean
+    public TodoRepository todoRepository(){ return new JpaTodoRepository(em);}
+
 }
