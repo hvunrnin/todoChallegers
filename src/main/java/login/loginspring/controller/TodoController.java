@@ -111,16 +111,17 @@ public class TodoController {
         return "redirect:/todolist";
     }
 
-    @PostMapping("/list")
-    public String createTodo(TodoForm form){
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.println(form.getGoalId()+","+form.getContent()+","+form.getDate()+","+form.getOrderNum());
+    @PostMapping("/insertTodo")
+    public String createTodo(TodoForm form, Authentication authentication){
+        Member member = (Member) authentication.getPrincipal(); //로그인한 사용자 정보
+        String memberId = member.getUserId();
+//        System.out.println(form.getGoalId()+","+form.getContent()+","+form.getDate()+","+form.getOrderNum());
         Todos todos = new Todos();
-//        todos.setId(0);
-        todos.setUserId("222"); //로그인한 사용자의 id로 받아오기
+        todos.setUserId(memberId);
         todos.setGoalId(Integer.valueOf(form.getGoalId()));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            todos.setDate(formatter.parse(form.getDate())); //getDate() 클릭한 달력의 날짜로 바꿔야 함
+            todos.setDate(formatter.parse(feed_date)); //getDate() 클릭한 달력의 날짜로 바꿔야 함
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -141,8 +142,8 @@ public class TodoController {
         System.out.println(todos.toString());
         return "redirect:/todolist";
     }
-//
-//    @PostMapping("/update")
+
+//    @PostMapping("/updateTodo")
 //    public String updateTodo(TodoForm form){
 //        System.out.println(form.getId());
 //        System.out.println(form.getContent());
