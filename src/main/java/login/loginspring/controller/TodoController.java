@@ -38,7 +38,8 @@ public class TodoController {
     int current_year = now.getYear();
     int current_month = now.getMonthValue();
     int current_date = now.getDayOfMonth();
-    String today = current_year+"-"+current_month+"-"+current_date;
+    String today = current_year+"-"+(current_month<10?"0"+current_month:current_month)+"-"+(current_date<10?"0"+current_date:current_date);
+
     String feed_date = today;
 
     @Autowired
@@ -143,15 +144,15 @@ public class TodoController {
         return "redirect:/todolist";
     }
 
-//    @PostMapping("/updateTodo")
-//    public String updateTodo(TodoForm form){
-//        System.out.println(form.getId());
-//        System.out.println(form.getContent());
-//        Optional<Todos> todos = todoService.findById(Integer.valueOf(form.getId()));
-//
-//        todos.get().setContent(form.getContent());
-//        todoService.join(todos.get());
-//        System.out.println("성공했구연"+form.getId() +":" + form.getContent());
-//        return "redirect:/list";
-//    }
+    @PostMapping("/updateTodo")
+    public String updateTodo(TodoForm form){
+        System.out.println(form.getId());
+        System.out.println(form.getContent());
+        Optional<Todos> todos = todoService.findById(Integer.valueOf(form.getId()));
+
+        todos.get().setContent(form.getContent());
+        todoService.join(todos.get());
+        System.out.println("성공했구연"+form.getId() +":" + form.getContent());
+        return "redirect:/todolist";
+    }
 }

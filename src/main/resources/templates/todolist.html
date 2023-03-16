@@ -82,13 +82,18 @@
           <script th:inline="javascript">
             order_num = []
             var goals = new Array();
+<!--            var feed_date = [[${feed_date}]]-->
+<!--            console.log(feed_date)-->
             [# th:each="goals : ${goals}"]
             goals.push([[${goals}]]);
             [/]
 
             var todos = new Array();
             [# th:each="todos : ${todos}"]
-            todos.push([[${todos}]]);
+<!--              console.log([[${todos.date}]])-->
+              if([[${feed_date}]]==[[${todos.date}]]){
+                todos.push([[${todos}]]);
+              }
             [/]
             function sortByOrderNum(array){
                 array.sort(function(a,b){return a.orderNum - b.orderNum})
@@ -133,7 +138,7 @@
         h.push('<td></td>');
       }
       else{
-        h.push('<td><form action="/todolist" method="post"><button type="submit" name="feed_date" class="c_btn" value="'+year+'-'+month+'-'+data[i]+'"></button></form>'+data[i]+'</td>');
+        h.push('<td><form action="/todolist" method="post"><button type="submit" name="feed_date" class="c_btn" value="'+year+'-'+leftPad(month)+'-'+leftPad(data[i])+'"></button></form>'+data[i]+'</td>');
       }
     }
     console.log(h);
@@ -240,7 +245,7 @@
           todo_btn.addEventListener('click', (event) => {
 
               const form = document.createElement('form')
-              form.setAttribute('action','/update')
+              form.setAttribute('action','/updateTodo')
               form.setAttribute('method','post')
 
               const changeContent = document.createElement('input')
