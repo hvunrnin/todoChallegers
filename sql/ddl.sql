@@ -44,4 +44,4 @@ FOREIGN KEY (USER_ID) REFERENCES MEMBER (USER_ID),
 FOREIGN KEY (GOAL_ID) REFERENCES GOALS (ID)
 )
 
-insert into goals values (0,'222',0,'할일'),(1,'222',1,'운동')
+insert into goals values (0,'cindy',0,''),(1,'cindy',1,'할일')

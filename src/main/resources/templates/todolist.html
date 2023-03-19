@@ -7,15 +7,15 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Poppins:wght@400;700&display=swap"
-            rel="stylesheet"
-    >
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+    </style>
   </head>
   <!-- css file 연결 -->
   <link rel="stylesheet" href="/css/todostyle.css">
+  <link rel="stylesheet" href="/css/goalBtn.css">
   <script type = "text/javascript"></script>
 
   <body>
@@ -36,8 +36,8 @@
       <section class="profile">
         <img class="profile_img" src="/img/profile_img.jpg" >
         <div class="profile_des">
-          <p th:text="${name}">profile id</p>
-          <p th:text="${message}">profile message</p>
+          <p id="nickname" th:text="${name}">profile id</p>
+          <p id="message" th:text="${message}">profile message</p>
         </div>
         <!-- 프로필(사진, 닉네임, 한줄소개) -->
       </section>
@@ -76,43 +76,43 @@
       <section class="feed">
         <a href="/profile_edit">프로필 수정</a>
         <a href="/logout_proc">로그아웃</a>
-        <p th:text="${feed_date}">feed_date</p>
         <!-- feed 은화언니 부분 -->
-        <div>
-          <script th:inline="javascript">
-            order_num = []
-            var goals = new Array();
+        <script th:inline="javascript">
+          order_num = []
+          var goals = new Array();
 <!--            var feed_date = [[${feed_date}]]-->
 <!--            console.log(feed_date)-->
-            [# th:each="goals : ${goals}"]
-            goals.push([[${goals}]]);
-            [/]
+          [# th:each="goals : ${goals}"]
+          goals.push([[${goals}]]);
+          [/]
 
-            var todos = new Array();
-            [# th:each="todos : ${todos}"]
+          var todos = new Array();
+          [# th:each="todos : ${todos}"]
 <!--              console.log([[${todos.date}]])-->
-              if([[${feed_date}]]==[[${todos.date}]]){
-                todos.push([[${todos}]]);
+            if([[${feed_date}]]==[[${todos.date}]]){
+              todos.push([[${todos}]]);
+            }
+          [/]
+          function sortByOrderNum(array){
+              array.sort(function(a,b){return a.orderNum - b.orderNum})
+          }
+
+          sortByOrderNum(goals);
+          sortByOrderNum(todos);
+
+          function saveOrderNum(todos){
+              for(todo in todos){
+                  order_num.push(todos[todo].orderNum)
               }
-            [/]
-            function sortByOrderNum(array){
-                array.sort(function(a,b){return a.orderNum - b.orderNum})
-            }
+          }
 
-            sortByOrderNum(goals);
-            sortByOrderNum(todos);
-
-            function saveOrderNum(todos){
-                for(todo in todos){
-                    order_num.push(todos[todo].orderNum)
-                }
-            }
-
-            saveOrderNum(todos);
-          </script>
-          <h1>Feed</h1>
-          <div id="feed"></div>
+          saveOrderNum(todos);
+        </script>
+        <div class="feed_nav">
+          <p id="feed_title">Feed</p>
+          <p id="feed_date" th:text="${feed_date}">feed_date</p>
         </div>
+        <div id="feed" class="feed_data"></div>
       </section>
     </main>
   </body>
@@ -138,7 +138,7 @@
         h.push('<td></td>');
       }
       else{
-        h.push('<td><form action="/todolist" method="post"><button type="submit" name="feed_date" class="c_btn" value="'+year+'-'+leftPad(month)+'-'+leftPad(data[i])+'"></button></form>'+data[i]+'</td>');
+        h.push('<td><form action="/todolist" method="post"><button type="submit" name="feed_date" class="c_btn c_btnFade c_btnLightBlue" value="'+year+'-'+leftPad(month)+'-'+leftPad(data[i])+'"></button></form>'+data[i]+'</td>');
       }
     }
     console.log(h);
@@ -220,6 +220,7 @@
               <!-- content 추가 버튼 -->
               const addBtn = document.createElement('input');
               addBtn.setAttribute('type','submit');
+              addBtn.setAttribute('class', 'addBtn');
               addBtn.setAttribute('value', '추가');
 
               form.appendChild(textField);
@@ -251,9 +252,11 @@
               const changeContent = document.createElement('input')
               changeContent.setAttribute('type','text')
               changeContent.setAttribute('name','content')
-              changeContent.setAttribute('placeholder',originContent)
+              changeContent.setAttribute('id','content')
+              changeContent.setAttribute('value',originContent)
 
               const okBtn = document.createElement('button')
+              okBtn.setAttribute('class', 'okBtn');
               okBtn.textContent = '확인'
 
               const sendTodoId = document.createElement('input')
@@ -281,11 +284,13 @@
           <!-- goal div 생성 -->
           const goalDiv = document.createElement('div')
           goalDiv.setAttribute('id',goals[goal].category+'_div')
+          goalDiv.setAttribute('class','goal_div')
           goalDiv.setAttribute('value',goals[goal].id)
 
           <!-- goal button 생성 -->
           const goalBtn = document.createElement('button')
           goalBtn.setAttribute('id',goals[goal].category+'_btn')
+          goalBtn.setAttribute('class', 'button btnFade btnLightBlue')
           goalBtn.textContent = goals[goal].category
 
           <!-- goal event 추가 -->
@@ -301,12 +306,14 @@
 
                   const todoDiv = document.createElement('div')
                   todoDiv.setAttribute('id',todos[todo].id)
+                  todoDiv.setAttribute('class','todos')
                   todoDiv.setAttribute('value',todos[todo].content)
                   todoDiv.textContent = todos[todo].content
 
                   <!-- 수정 버튼 -->
                   const modBtn = document.createElement('button')
                   modBtn.setAttribute('id',todos[todo].id+'_btn')
+                  modBtn.setAttribute('class', 'modBtn');
                   addEventToModBtn(todos[todo].id,todos[todo].id+'_btn')
                   modBtn.textContent = '수정'
 

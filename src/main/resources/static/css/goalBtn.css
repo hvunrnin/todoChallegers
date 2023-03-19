@@ -1,0 +1,23 @@
+.button {
+  display: block;
+  position: relative;
+  float: left;
+  width: 70px;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+  font-weight: 600;
+  text-align: center;
+  color: #FFF;
+  border-radius: 30px;
+  border-width:0px;
+  transition: all 0.2s ;
+}
+
+.btnLightBlue {
+  background: #50C8FF;
+}
+
+.btnFade.btnLightBlue:hover {
+  background: #0078FF;
+}
