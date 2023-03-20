@@ -22,15 +22,14 @@
     <nav>
       <ul class="nav-bar">
         <li class="logo"><a href=""><span class="accent">TodoChallengers</span></a></li>
-        <li class="nav-item"><a href="">
-          <img class="menu-icon"
-               src="/img/menu.png"
-               alt="menu">
-        </a></li>
+        <li class="nav-item">
+          <a href="/logout_proc">로그아웃</a>
+          <a href=""><img class="menu-icon" src="/img/menu.png" alt="menu"></a>
+        </li>
       </ul>
     </nav>
     <main>
-      <section class="challeges">
+      <section class="challenges">
         <!-- 챌린지 바 부분 -->
       </section>
       <section class="profile">
@@ -39,6 +38,7 @@
           <p id="nickname" th:text="${name}">profile id</p>
           <p id="message" th:text="${message}">profile message</p>
         </div>
+        <a href="/profile_edit"><img id="profile_modi" src="/img/gear.png"></a>
         <!-- 프로필(사진, 닉네임, 한줄소개) -->
       </section>
       <section id="calender">
@@ -74,8 +74,6 @@
         </div>
       </section>
       <section class="feed">
-        <a href="/profile_edit">프로필 수정</a>
-        <a href="/logout_proc">로그아웃</a>
         <!-- feed 은화언니 부분 -->
         <script th:inline="javascript">
           order_num = []

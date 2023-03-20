@@ -56,8 +56,8 @@ main {
   display: grid;
   margin: 24px 130px;
   grid-template-rows: 1fr 1.5fr 7fr;
-  grid-template-columns: 450px minmax(400px, 1fr);
-  gap: 30px 10px;
+  grid-template-columns: 450px minmax(500px, 1fr);
+  gap: 30px 50px;
   grid-template-areas:
   'challenges feed'
   'profile feed'
@@ -93,6 +93,7 @@ p {
 /*profile*/
 .profile{
     display: flex;
+    align-items: center;
     gap: 20px;
 }
 .profile_img{
@@ -104,10 +105,17 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 300px;
     font-size: large;
 }
 #nickname{
     font-weight: bold;
+}
+
+#profile_modi{
+    justify-content: center;
+    width: 25px;
+    height: 25px;
 }
 
 
@@ -137,13 +145,14 @@ p {
     border:none;
     padding:0;
 }
+
 .c_btn{
     height: 25px;
     width: 25px;
     border-radius: 12.5px;
     border-width:0px;
     padding:0;
-    transition: all 0.2s ;
+    transition: all 0.2s;
 }
 
 .c_btnLightBlue {
@@ -192,6 +201,7 @@ input:focus{
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-top: 20px
 }
 
 .goal_div{
