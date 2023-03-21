@@ -4,7 +4,10 @@ import login.loginspring.domain.Challenge;
 import login.loginspring.domain.Member;
 import login.loginspring.service.ChallengeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +23,8 @@ import java.util.List;
 @Controller
 public class ChallengeController {
     private final ChallengeService challengeService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     public ChallengeController(ChallengeService challengeService){
@@ -39,6 +44,7 @@ public class ChallengeController {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         Challenge challenge = new Challenge();
+        challenge.setUserId(memberId);
         challenge.setTitle(form.getTitle());
 
         try {
@@ -54,6 +60,9 @@ public class ChallengeController {
 
         challenge.setMemo(form.getMemo());
 
+        authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(member.getUsername(), member.getUserRpw()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         if(challengeService.checkTitle(challenge)) {
             return "Challenge/createChallenge_fail";
         }
@@ -61,13 +70,6 @@ public class ChallengeController {
             challengeService.make(challenge);
             return "redirect:/todolist";
         }
-    }
-
-    @GetMapping(value="/challengeList")
-    public String list(Model model) {
-        List<Challenge> challenges = challengeService.findChallenges();
-        model.addAttribute("challenges", challenges);
-        return "Challenge/challengeList";
     }
 
     @GetMapping("/challenge/{no}")
@@ -81,6 +83,6 @@ public class ChallengeController {
     @DeleteMapping("/challenge/{no}")
     public String delete(@PathVariable("no") String no){
         challengeService.deleteChallenge(no);
-        return "redirect:/";
+        return "redirect:/todolist";
     }
 }

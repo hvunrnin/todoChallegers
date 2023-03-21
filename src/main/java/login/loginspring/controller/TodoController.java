@@ -1,13 +1,7 @@
 package login.loginspring.controller;
 
-import login.loginspring.domain.Goals;
-import login.loginspring.domain.Member;
-import login.loginspring.domain.Todos;
-import login.loginspring.domain.updateMember;
-import login.loginspring.service.CalenderService;
-import login.loginspring.service.GoalService;
-import login.loginspring.service.MemberService;
-import login.loginspring.service.TodoService;
+import login.loginspring.domain.*;
+import login.loginspring.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,6 +28,7 @@ public class TodoController {
     private final MemberService memberService;
     private final TodoService todoService;
     private final GoalService goalService;
+    private final ChallengeService challengeService;
 
     LocalDate now = LocalDate.now();
     int current_year = now.getYear();
@@ -47,11 +42,12 @@ public class TodoController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    public TodoController(CalenderService calenderService, MemberService memberService, TodoService todoService, GoalService goalService) {
+    public TodoController(CalenderService calenderService, MemberService memberService, TodoService todoService, GoalService goalService, ChallengeService challengeService) {
         this.calenderService = calenderService;
         this.memberService = memberService;
         this.todoService = todoService;
         this.goalService = goalService;
+        this.challengeService = challengeService;
     }
 
     @GetMapping("/todolist")
@@ -70,6 +66,10 @@ public class TodoController {
         model.addAttribute("goals", goalsList);
         List<Todos> todosList = todoService.findTodos();
         model.addAttribute("todos", todosList);
+
+        String memberId = member.getUserId();
+        List<Challenge> challenges = challengeService.findChallenges(memberId);
+        model.addAttribute("challenges", challenges);
 
         return "todolist";
     }

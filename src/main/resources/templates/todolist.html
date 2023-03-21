@@ -16,6 +16,7 @@
   <!-- css file 연결 -->
   <link rel="stylesheet" href="/css/todostyle.css">
   <link rel="stylesheet" href="/css/goalBtn.css">
+  <link rel="stylesheet" href="/css/menu.css">
   <script type = "text/javascript"></script>
 
   <body>
@@ -24,14 +25,70 @@
         <li class="logo"><a href=""><span class="accent">TodoChallengers</span></a></li>
         <li class="nav-item">
           <a href="/logout_proc">로그아웃</a>
-          <a href="/menu"><img class="menu-icon" src="/img/menu.png" alt="menu"></a>
+          <input type="button" value = "menu" onclick = "fadePopUp()">
         </li>
       </ul>
+      <div id = "popup" style="display:none">
+        <div id="popmenu">
+          <p><a href = "/goals">목표</a></p>
+          <p><a href = "/easyinput">간편입력</a></p>
+        </div>
+      </div>
     </nav>
     <main>
       <section class="challenges">
         <!-- 챌린지 바 부분 -->
-        <a href="/challengeList">챌린지</a>
+
+        <div class="list">
+          <div>
+            <table>
+              <!--              <thead>-->
+              <!--              챌린지-->
+              <!--              </thead>-->
+              <tbody>
+              <td th:each="challenge : ${challenges}">
+                <!--                <td>-->
+                <input type="hidden"
+                       id="end_date"
+                       name="end_date"
+                       th:value="${challenge.end_date}">
+                <input type="hidden"
+                       id="start_date"
+                       name="start_date"
+                       th:value="${challenge.start_date}">
+
+                <script th:inline="javascript">
+                var title = [[${challenge.title}]];
+                var start_date = [[${challenge.start_date}]];
+                var end_date = [[${challenge.end_date}]];
+                var today = new Date().toISOString().substring(0,10);
+                var diff = Date.parse(end_date) - Date.parse(today);
+                var diffDay = Math.floor(diff / (1000*60*60*24));
+            </script>
+
+                <a th:href="@{'/challenge/'+${challenge.title}}">
+                  <script th:inline="javascript">
+                    if(diffDay>0 && start_date<=today){
+                        document.writeln(title);
+                    }
+                </script>
+                  </th:block>
+                </a>
+                <!--                </td>-->
+                <!--                <td>-->
+                <br>
+                <script th:inline="javascript">
+                if(diffDay>0 && start_date<=today){
+                    document.write("D-" + diffDay);
+                }
+            </script>
+                <!--                </td>-->
+              </td>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <a href="/challenges/new">챌린지추가</a>
       </section>
       <section class="profile">
         <img class="profile_img" src="/img/profile_img.jpg" >
@@ -122,6 +179,10 @@
     </main>
   </body>
   <script>
+  function fadePopUp() {
+    document.getElementById("popup").style.display = "block";
+  }
+
   let year=[[${year}]];
   let month=[[${month}]];
   console.log(year);
@@ -374,14 +435,6 @@
       }
   }
   setTodos(goals, todos);
-
-<!--  $(document).ready(function(){-->
-<!--                  $("#menu").click(function(){-->
-<!--                  $("#popup").fadeIn();-->
-<!--                  });-->
-<!--                  $("#popup").click(function(){-->
-<!--                  $("#popup").fadeOut();-->
-<!--                  });-->
 </script>
   <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js" integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>

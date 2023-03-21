@@ -12,6 +12,7 @@ public interface ChallengeRepository{
     Challenge save(Challenge challenge);
     List<Challenge> findAll();
     Optional<Challenge> findByTitle(String title);
+    List<Challenge> findById(String id);
     void delete(Challenge challenge);
     void deleteByTitle(String title);
 }

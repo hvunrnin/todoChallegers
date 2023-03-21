@@ -36,6 +36,12 @@ public class JpaChallengeRepository implements ChallengeRepository{
     }
 
     @Override
+    public List<Challenge> findById(String userId) {
+        return em2.createQuery("select c from Challenge c where c.userId=:userId", Challenge.class)
+                .setParameter("userId", userId).getResultList();
+    }
+
+    @Override
     public void delete(Challenge challenge) {
         em2.remove(challenge);
     }

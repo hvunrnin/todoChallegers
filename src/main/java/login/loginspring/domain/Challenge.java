@@ -10,6 +10,7 @@ public class Challenge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String userId;
     private String title;
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -19,7 +20,7 @@ public class Challenge {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date end_date;
     private String memo;
-   // private String user_email;
+    // private String user_email;
 
     public String getTitle() {
         return title;
@@ -59,5 +60,13 @@ public class Challenge {
 
     public void setMemo(String memo) {
         this.memo = memo;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

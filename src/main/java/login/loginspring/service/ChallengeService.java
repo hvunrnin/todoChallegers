@@ -33,8 +33,8 @@ public class ChallengeService {
             return false;
         }
     }
-    public List<Challenge> findChallenges() {
-        return challengeRepository.findAll();
+    public List<Challenge> findChallenges(String id) {
+        return challengeRepository.findById(id);
     }
 
     public Challenge getPost(String title){
@@ -47,5 +47,7 @@ public class ChallengeService {
     public void deleteChallenge(String title){
         challengeRepository.deleteByTitle(title);
     }
+
+    public List<Challenge> findById(String id) { return challengeRepository.findById(id); }
 
 }
