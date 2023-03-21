@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>챌린지리스트 보기</title>
+</head>
+<body>
+
+<div class="list">
+  <div>
+    <table>
+      <thead>
+      <tr>
+        <th>타이틀</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="challenge : ${challenges}">
+        <td>
+            <input type="hidden"
+                   id="end_date"
+                   name="end_date"
+                   th:value="${challenge.end_date}">
+            <input type="hidden"
+                   id="start_date"
+                   name="start_date"
+                   th:value="${challenge.start_date}">
+
+            <script th:inline="javascript">
+                var title = [[${challenge.title}]];
+                var start_date = [[${challenge.start_date}]];
+                var end_date = [[${challenge.end_date}]];
+                var today = new Date().toISOString().substring(0,10);
+                var diff = Date.parse(end_date) - Date.parse(today);
+                var diffDay = Math.floor(diff / (1000*60*60*24));
+            </script>
+
+            <a th:href="@{'/challenge/'+${challenge.title}}">
+                <script th:inline="javascript">
+                    if(diffDay>0 && start_date<=today){
+                        document.write(title);
+                    }
+                </script>
+                </th:block>
+            </a>
+        </td>
+        <td>
+            <script th:inline="javascript">
+                if(diffDay>0 && start_date<=today){
+                    document.write("  D-" + diffDay);
+                }
+            </script>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<br><a href="/challenges/new">챌린지추가</a>
+<script>
+  function dDay_check() {
+      const finalDay = document.querySelector("#end_date").value;
+      const today = new Date().toISOString().substring(0,10);
+      const diff = Date.parse(finalDay) - Date.parse(today);
+
+      var diffDay = Math.floor(diff / (1000*60*60*24));
+
+      alert(diffDay);
+  }
+</script>
+</body>
+</html>

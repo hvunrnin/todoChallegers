@@ -21,6 +21,12 @@ public class JpaGoalRepository implements GoalRepository {
     }
 
     @Override
+    public Goals remove(Goals goals) {
+        em.remove(goals);
+        return goals;
+    }
+
+    @Override
     public Optional<Goals> findById(Integer id) {
         Goals goals = em.find(Goals.class, id);
         return Optional.ofNullable(goals);

@@ -20,6 +20,12 @@ public class JpaTodoRepository implements TodoRepository{
     }
 
     @Override
+    public Todos remove(Todos todos) {
+        em.remove(todos);
+        return todos;
+    }
+
+    @Override
     public Optional<Todos> findById(Integer id) {
         Todos todos = em.find(Todos.class, id);
         return Optional.ofNullable(todos);

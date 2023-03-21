@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<body>
+<div class="container">
+    <h1>챌린지 만들기</h1>
+    <form name="createForm" action="/challenges/new" method="post">
+        <div class="form-group">
+            <label for="title">title</label>
+            <input type="text" id="title" name="title" placeholder="타이틀을 입력하세요">
+            <br><label for="start_date">start_date</label>
+            <input type="date"
+                   name="start_date"
+                   id="start_date"
+                   max="2024-12-31"
+                   min="2023-03-01">
+            <br><label for="end_date">end_date</label>
+            <input type="date"
+                   id="end_date"
+                   name="end_date"
+                   max="2024-12-31"
+                   min="2023-03-01">
+            <br><label for="memo">memo</label>
+            <input type="text" id="memo" name="memo" placeholder="메모을 입력하세요">
+        </div>
+        <p>
+            <input type="button" id="check" value="확인" onclick="javascript: comparison();">
+            <input type="button" id="back" value="취소" onclick='location.href="/challengeList"'>
+
+        </p>
+    </form>
+    <script type="text/javascript">
+            function comparison() {
+                var createForm = document.createForm;
+
+                var start_date = document.querySelector("#start_date").value;
+                var end_date = document.querySelector("#end_date").value;
+                start_date = start_date.toString();
+                end_date = end_date.toString();
+
+                if(start_date > end_date) {
+                    window.alert('끝나는 날이 더 앞');
+                }
+                else if(document.getElementById('title').value==''){
+                    window.alert('타이틀 입력해~');
+                }
+                else{
+                    createForm.submit();
+                }
+            }
+
+            function blank() {
+                if(document.getElementById('title').value==''){
+                    window.alert('타이틀 입력해~');
+                }
+                else{
+                    createForm.submit();
+                }
+            }
+
+
+    </script>
+    <style>
+        #title {
+            width: 80%;
+            height: 50px;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: 2px solid black;
+            text-align: center;
+        }
+        #memo{
+            width: 80%;
+            height: 50px;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: 2px solid black;
+            text-align: center;
+        }
+
+        h1{
+            text-align: center;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator,
+
+<!--        input[type="date"]:valid{color:#c9c9c9;}-->
+    </style>
+</div>
+
+</body>
+
+</html>

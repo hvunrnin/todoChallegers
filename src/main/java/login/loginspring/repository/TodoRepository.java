@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface TodoRepository /*extends JpaRepository<Todos,Integer>*/ {
     Todos save(Todos todos);
+    Todos remove(Todos todos);
     Optional<Todos> findById(Integer id);
     List<Todos> findByUserId(String userId);
     List<Todos> findByGoalId(Integer goalId);

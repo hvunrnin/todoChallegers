@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div>
+        <h1>목표</h1>
+        <a href="/goals/new">+</a>
+        <!--<form action="goals" method="post">-->
+            <script th:inline="javascript">
+                var goals = new Array();
+                [# th:each="goals : ${goals}"]
+                console.log([[${goals.category}]]);
+                goals.push([[${goals}]]);
+                [/]
+            </script>
+            <div id = "goalsList"></div>
+    </div>
+</div>
+<script>
+    function makeGoals(goals) {
+        const element = document.getElementById("goalsList");
+        for(goal in goals) {
+        let makeGoalBtn = '<div id=' + goals[goal].category + '>';
+            makeGoalBtn += '<button id=' + goals[goal].category +
+            '_btn onclick = ' + '"update(\'' + goals[goal].category + '\')">' + goals[goal].category + '</button>';
+            makeGoalBtn += '</div>';
+        console.log(makeGoalBtn);
+        element.innerHTML += makeGoalBtn;
+        }
+    }
+    makeGoals(goals);
+</script>
+<script>
+    function update(value){
+        let f = document.createElement('form');
+        let obj = document.createElement('input');
+
+        obj.setAttribute('type', 'hidden');
+        obj.setAttribute('name', 'category');
+        obj.setAttribute('value', value);
+
+        f.appendChild(obj);
+        f.setAttribute('method', 'post');
+        f.setAttribute('action','/goals/update');
+        document.body.appendChild(f);
+        console.log(f);
+        f.submit();
+    }
+
+</script>
+</body>
+</html>

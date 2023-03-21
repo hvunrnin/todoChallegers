@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 import java.text.ParseException;
@@ -93,6 +94,18 @@ public class TodoController {
             feed_date = String.valueOf(btn_date.getFeed_date());
         }
         return "redirect:/todolist"; //접근 html
+    }
+
+    @GetMapping("/menu")
+    public String menu(Model model, Authentication authentication) {
+        Member member = (Member) authentication.getPrincipal(); //로그인된 사용자 정보
+        model.addAttribute("name", member.getUserName());
+        return "menu";
+    }
+
+    @PostMapping("/menu")
+    public String menu() {
+        return "redirect:/todolist";
     }
 
 

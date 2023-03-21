@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class = "container">
+    <div>
+        <h1>간편 입력</h1>
+            <script th:inline="javascript">
+                var goals = new Array();
+                [# th:each = "goals : ${goals}"]
+                console.log([[${goals.category}]]);
+                console.log([[${goals.id}]]);
+                goals.push([[${goals}]]);
+                [/]
+
+                var todos = new Array();
+                [# th:each = "todos : ${todos}"]
+                console.log([[${todos.content}]]);
+                console.log([[${todos.id}]]);
+                todos.push([[${todos}]]);
+                [/]
+            </script>
+            <div id="easyinput"></div>
+    </div>
+</div>
+<script>
+    function makeGoals(goals, todos) {
+
+        const element = document.getElementById("easyinput");
+
+        for(goal in goals) {
+            let makeGoalBtn = '<div name=' + goals[goal].category + '>';
+                makeGoalBtn += '<button id='+goals[goal].category+
+                '_btn onclick = ' + '"create(\'' + goals[goal].category+'\')">' + goals[goal].category + '</button>';
+                makeGoalBtn += '</div>';
+            console.log(makeGoalBtn);
+            element.innerHTML += makeGoalBtn;
+
+            var goal_todos = new Array();
+            for(todo in todos) {
+                if(todos[todo].goalId == goals[goal].id) {
+                    goal_todos.push(todos[todo]);
+                }
+            }
+
+            for(todo in goal_todos) {
+                var value = "";
+                if(goal_todos[todo].repeat_montly != null) {
+                    value = "매월 ";
+                    const search = '.';
+                    const replaceWith = ' ';
+                    const result = goal_todos[todo].repeat_montly.split(search).join(replaceWith);
+                    value += result;
+                }
+                else {
+                    let every = 0;
+                    value += "매주 ";
+                    if(goal_todos[todo].isRepeatMon == 1) { every ++; value += "월 "; }
+                    if(goal_todos[todo].isRepeatWed == 1) { every ++; value += "수 "; }
+                    if(goal_todos[todo].isRepeatTue == 1) { every ++; value += "화 "; }
+                    if(goal_todos[todo].isRepeatThu == 1) { every ++; value += "목 "; }
+                    if(goal_todos[todo].isRepeatFri == 1) { every ++; value += "금 "; }
+                    if(goal_todos[todo].isRepeatSat == 1) { every ++; value += "토 "; }
+                    if(goal_todos[todo].isRepeatSun == 1) { every ++; value += "일 "; }
+
+                    if(every == 7) value = "매일";
+                }
+                let makeTodoBtn = '<p><button id = ' + goal_todos[todo].content
+                    + ' onclick = ' + '"update(\'' + goal_todos[todo].id + '\')">'
+                    + ' ' + goal_todos[todo].content
+                    + ' ' + goal_todos[todo].startDate
+                    + ' ' + goal_todos[todo].endDate
+                    + ' ' + value
+                    + '</button></p>';
+
+                console.log(makeTodoBtn);
+                element.innerHTML += makeTodoBtn;
+            }
+        }
+    }
+    makeGoals(goals, todos);
+</script>
+<script>
+    function create(value){
+        let f = document.createElement('form');
+        let obj = document.createElement('input');
+
+        obj.setAttribute('type', 'hidden');
+        obj.setAttribute('name', 'category');
+        obj.setAttribute('value', value);
+
+        f.appendChild(obj);
+        f.setAttribute('method', 'get');
+        f.setAttribute('action','/easyinput/new');
+        document.body.appendChild(f);
+        console.log(f);
+        f.submit();
+    }
+    function update(todoId) {
+        let form = document.createElement('form');
+        let input = document.createElement('input');
+
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', 'todoId');
+        input.setAttribute('value', todoId);
+
+        form.appendChild(input);
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', '/easyinput/update');
+        document.body.appendChild(form);
+        console.log(form);
+        form.submit();
+    }
+</script>
+</body>
+</html>

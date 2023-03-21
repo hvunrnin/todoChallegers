@@ -34,8 +34,15 @@ public class Todos {
     private int isRepeatSun;
     private int isChecked;
 
+    private String repeat_monthly;
 
+    public String getRepeat_montly() {
+        return repeat_monthly;
+    }
 
+    public void setRepeat_montly(String repeat_montly) {
+        this.repeat_monthly = repeat_monthly;
+    }
 
     public Integer getId() {return id;}
 

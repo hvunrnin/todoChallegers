@@ -15,9 +15,19 @@ public class TodoService {
         this.todoRepository = todoRepository;
     }
 
-    public Integer join(Todos todos){
+    public void join(Todos todos){
         todoRepository.save(todos);
-        return null;
+    }
+    public void delete(int todoId) {
+        Optional<Todos> todo = findById(todoId);
+        todoRepository.remove(todo.get());
+    }
+    public void deleteGoal(int goalId) {
+        System.out.println("in todo delete " + goalId);
+        List<Todos> todos = findContents(goalId);
+        for(int i = 0; i < todos.size(); i++) {
+            todoRepository.remove(todos.get(i));
+        }
     }
 
     public List<Todos> findContents(Integer goalId) {return todoRepository.findByGoalId(goalId).stream().toList();}

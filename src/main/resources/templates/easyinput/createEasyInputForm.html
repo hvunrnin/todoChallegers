@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<body>
+<div class="container">
+    <h1>세부사항</h1>
+    <form action="/easyinput/new" method="post" id = "easyinputForm" onsubmit="return checkNull();">
+        <div class="form-group">
+            <input type="text" id="userContent" name="content" placeholder="할 일 입력" value="">
+            <input type="hidden" id = "goalID" name = "goalID" value="">
+            <input type="hidden" id = "everyCheck" name = "everyCheck" value = "">
+            <input type="hidden" id = "monthCheck" name = "monthCheck" value = "">
+            <input type = "hidden" id = "id" name = "id" value = "">
+            <button type="submit">확인</button>
+        </div>
+        <p><div>
+            시작 날짜 <input type="text" name="startDate" id="startDate" class="ts" autocomplete="off"/>
+        </div></p>
+        <p><div>
+            종료 날짜 <input type="text" name="endDate" id="endDate" class="ts" autocomplete="off"/>
+        </div></p>
+        <p><div>
+            반복
+            <label><input type="radio" name="every" id="everyday" value="everyday" checked>매일</label>
+            <label><input type="radio" name="every" id="everyweek" value="everyweek">매주</label>
+            <label><input type="radio" name="every" id="everymonth" value="everymonth">매월</label>
+        </div></p>
+        <div id = "repeatCheck"></div>
+        <div id="everyweek_check" style="display:none">
+            <label><input type="checkbox" id="mon" name = "isRepeatMon" value="mon" checked>월</label>
+            <label><input type="checkbox" id="tue" name = "isRepeatTue" value="tue">화</label>
+            <label><input type="checkbox" id="wed" name = "isRepeatWed" value="wed">수</label>
+            <label><input type="checkbox" id="thu" name = "isRepeatThu" value="wed">목</label>
+            <label><input type="checkbox" id="fri" name = "isRepeatFri" value="wed">금</label>
+            <label><input type="checkbox" id="sat" name = "isRepeatSat" value="wed">토</label>
+            <label><input type="checkbox" id="sun" name = "isRepeatSun" value="wed">일</label>
+        </div>
+        <div id = "everymonth_check" style = "display:none">
+            <table>
+                <tr id="week1">
+                    <td id="td1"><input type="checkbox" name = "month" value = "1" checked>1</td>
+                    <td id="td2"><input type="checkbox" name = "month" value = "2">2</td>
+                    <td id="td3"><input type="checkbox" name = "month" value = "3">3</td>
+                    <td id="td4"><input type="checkbox" name = "month" value = "4">4</td>
+                    <td id="td5"><input type="checkbox" name = "month" value = "5">5</td>
+                    <td id="td6"><input type="checkbox" name = "month" value = "6">6</td>
+                    <td id="td7"><input type="checkbox" name = "month" value = "7">7</td>
+                </tr>
+                <tr id="week2">
+                    <td id="td8"><input type="checkbox" name = "month" value = "8">8</td>
+                    <td id="td9"><input type="checkbox" name = "month" value = "9">9</td>
+                    <td id="td10"><input type="checkbox" name = "month" value = "10">10</td>
+                    <td id="td11"><input type="checkbox" name = "month" value = "11">11</td>
+                    <td id="td12"><input type="checkbox" name = "month" value = "12">12</td>
+                    <td id="td13"><input type="checkbox" name = "month" value = "13">13</td>
+                    <td id="td14"><input type="checkbox" name = "month" value = "14">14</td>
+                </tr>
+                <tr id="week3">
+                    <td id="td15"><input type="checkbox" name = "month" value = "15">15</td>
+                    <td id="td16"><input type="checkbox" name = "month" value = "16">16</td>
+                    <td id="td17"><input type="checkbox" name = "month" value = "17">17</td>
+                    <td id="td18"><input type="checkbox" name = "month" value = "18">18</td>
+                    <td id="td19"><input type="checkbox" name = "month" value = "19">19</td>
+                    <td id="td20"><input type="checkbox" name = "month" value = "20">20</td>
+                    <td id="td21"><input type="checkbox" name = "month" value = "21">21</td>
+                </tr>
+                <tr id="week4">
+                    <td id="td22"><input type="checkbox" name = "month" value = "22">22</td>
+                    <td id="td23"><input type="checkbox" name = "month" value = "23">23</td>
+                    <td id="td24"><input type="checkbox" name = "month" value = "24">24</td>
+                    <td id="td25"><input type="checkbox" name = "month" value = "25">25</td>
+                    <td id="td26"><input type="checkbox" name = "month" value = "26">26</td>
+                    <td id="td27"><input type="checkbox" name = "month" value = "27">27</td>
+                    <td id="td28"><input type="checkbox" name = "month" value = "28">28</td>
+                </tr>
+                <tr id="week5">
+                    <td id="td29"><input type="checkbox" name = "month" value = "29">29</td>
+                    <td id="td30"><input type="checkbox" name = "month" value = "30">30</td>
+                    <td id="td31"><input type="checkbox" name = "month" value = "31">31</td>
+
+                </tr>
+            </table>
+
+        </div>
+    </form>
+</div>
+<script>
+    $(function(){
+        $('#startDate').datepicker({
+            lang:'ko',
+            dateFormat: 'yy-mm-dd',
+            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], //달력의 월 부분 텍스트
+            monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], //달력의 월 부분 Tooltip
+            dayNamesMin: ['일','월','화','수','목','금','토'], //달력의 요일 텍스트
+            dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
+        });
+    })
+    $(function(){
+        $('#endDate').datepicker({
+            lang:'ko',
+            dateFormat: 'yy-mm-dd',
+            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], //달력의 월 부분 텍스트
+            monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'], //달력의 월 부분 Tooltip
+            dayNamesMin: ['일','월','화','수','목','금','토'], //달력의 요일 텍스트
+            dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
+        });
+    })
+
+
+    $(document).ready(function(){
+
+    $('#everyweek_check').hide();
+    $('#everymonth_check').hide();
+
+	$("input[name='every']").change(function(){
+	document.getElementById("everyCheck").value = document.querySelector('input[name="every"]:checked').value;
+
+		if($("input[name='every']:checked").val() == 'everyday'){
+			$('#everyweek_check').hide();
+            $('#everymonth_check').hide();
+		}
+		else if($("input[name='every']:checked").val() == 'everyweek'){
+			$('#everyweek_check').show();
+            $('#everymonth_check').hide();
+		}
+		else if($("input[name='every']:checked").val() == 'everymonth'){
+			$('#everyweek_check').hide();
+            $('#everymonth_check').show();
+
+		}
+	});
+
+});
+    function checkNull() {
+            var id_userContent = $('#userContent').val();
+            var id_startDate = $('#startDate').val();
+            var id_endDate = $('#endDate').val();
+
+            if($('#everymonth').is(':checked')) {
+                const query = 'input[name="month"]:checked';
+                const selectedEls = document.querySelectorAll(query);
+
+                let result = '';
+                selectedEls.forEach((el) => { result += el.value + '.'; });
+                document.getElementById('monthCheck').value = result;
+            }
+
+
+            if(id_userContent == null || id_userContent == '') {
+                alert("할 일을 입력하세요.");
+                return false;
+            }
+            if(id_startDate == null || id_startDate == '') {
+                alert("시작 날짜를 입력하세요.");
+                return false;
+            }
+            if(id_endDate == null || id_endDate == '') {
+                alert("종료 날짜를 입력하세요.");
+                return false;
+            }
+
+    }
+</script>
+<script th:inline = "javascript">
+    var goalID = [[${goal.id}]];
+    document.getElementById("goalID").value = goalID;
+</script>
+</body>
+</html>
