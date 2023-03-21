@@ -39,7 +39,7 @@ public class TodoController {
     int current_year = now.getYear();
     int current_month = now.getMonthValue();
     int current_date = now.getDayOfMonth();
-    String today = current_year+"-"+(current_month<10?"0"+current_month:current_month)+"-"+(current_date<10?"0"+current_date:current_date);
+    String today = current_year + "-" + (current_month < 10 ? "0" + current_month : current_month) + "-" + (current_date < 10 ? "0" + current_date : current_date);
 
     String feed_date = today;
 
@@ -55,9 +55,9 @@ public class TodoController {
     }
 
     @GetMapping("/todolist")
-    public String main(Model model, Authentication authentication){
+    public String main(Model model, Authentication authentication) {
         Member member = (Member) authentication.getPrincipal(); //로그인된 사용자 정보
-        model.addAttribute("id",member.getUserId());
+        model.addAttribute("id", member.getUserId());
         model.addAttribute("name", member.getUserName());
         model.addAttribute("message", member.getUserMessage());
         ArrayList<String> cal = calenderService.changeYearMonth(current_year, current_month);
@@ -76,22 +76,19 @@ public class TodoController {
 
 
     @PostMapping("/todolist")
-    public String ButtonControl(Member member, Model model, DiffForm diff, DateForm btn_date){
+    public String ButtonControl(Member member, Model model, DiffForm diff, DateForm btn_date) {
         int differ;
-        if(diff.getDiff()==null){
+        if (diff.getDiff() == null) {
             differ = 0;
-        }
-        else{
+        } else {
             differ = Integer.parseInt(diff.getDiff());
         }
 
-        if(differ!=0){
+        if (differ != 0) {
             int[] date = calenderService.changeMonth(current_year, current_month, differ);
             current_year = date[0];
             current_month = date[1];
-        }
-
-        else if (feed_date!=null) {
+        } else if (feed_date != null) {
             feed_date = String.valueOf(btn_date.getFeed_date());
         }
         return "redirect:/todolist"; //접근 html
@@ -111,7 +108,7 @@ public class TodoController {
 
 
     @GetMapping("/profile_edit")
-    public String ProfileEdit(Model model, Authentication authentication){
+    public String ProfileEdit(Model model, Authentication authentication) {
         Member member = (Member) authentication.getPrincipal(); //로그인된 사용자 정보
         model.addAttribute("name", member.getUserName());
         model.addAttribute("message", member.getUserMessage());
@@ -119,7 +116,7 @@ public class TodoController {
     }
 
     @PostMapping("/profile_edit")
-    public String ProfileUpdate (updateMember updatemember){
+    public String ProfileUpdate(updateMember updatemember) {
         Member member = memberService.updateUser(updatemember);
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(member.getUsername(), member.getUserRpw()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -127,7 +124,7 @@ public class TodoController {
     }
 
     @PostMapping("/insertTodo")
-    public String createTodo(TodoForm form, Authentication authentication){
+    public String createTodo(TodoForm form, Authentication authentication) {
         Member member = (Member) authentication.getPrincipal(); //로그인한 사용자 정보
         String memberId = member.getUserId();
 //        System.out.println(form.getGoalId()+","+form.getContent()+","+form.getDate()+","+form.getOrderNum());
@@ -159,24 +156,24 @@ public class TodoController {
     }
 
     @PostMapping("/updateTodo")
-    public String updateTodo(TodoForm form){
+    public String updateTodo(TodoForm form) {
         System.out.println(form.getMode());
-        if(form.getMode().equals("수정하기")){
-            if(form.getContent().equals("")){
+        if (form.getMode().equals("수정하기")) {
+            if (form.getContent().equals("")) {
                 System.out.println("데이터 삭제하라우");
                 todoService.delete(Integer.valueOf(form.getId()));
-            }else {
+            } else {
                 Optional<Todos> todos = todoService.findById(Integer.valueOf(form.getId()));
                 todos.get().setContent(form.getContent());
                 todoService.join(todos.get());
             }
-        }else if(form.getMode().equals("내일 하기")){
-            String [] result = feed_date.split("-");
+        } else if (form.getMode().equals("내일 하기")) {
+            String[] result = feed_date.split("-");
             int year = Integer.valueOf(result[0]);
             int month = Integer.valueOf(result[1]);
-            int date = Integer.valueOf(result[2])+1;
+            int date = Integer.valueOf(result[2]) + 1;
 
-            String tomorrow = year+"-"+(month<10?"0"+month:month)+"-"+(date<10?"0"+date:date);
+            String tomorrow = year + "-" + (month < 10 ? "0" + month : month) + "-" + (date < 10 ? "0" + date : date);
 
             Optional<Todos> todos = todoService.findById(Integer.valueOf(form.getId()));
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -186,10 +183,22 @@ public class TodoController {
                 throw new RuntimeException(e);
             }
             todoService.join(todos.get());
-        }else if(form.getMode().equals("삭제하기")){
+        } else if (form.getMode().equals("삭제하기")) {
             todoService.delete(Integer.valueOf(form.getId()));
+        } else if (form.getMode().equals("check")) {
+            System.out.println("응 체크~");
+            System.out.println(form.getIsChecked());
+            System.out.println(form.getId());
+            Optional<Todos> todos = todoService.findById(Integer.valueOf(form.getId()));
+            if (todos.get().getIsChecked() == 0) {
+                todos.get().setIsChecked(1);
+                todoService.join(todos.get());
+            } else {
+                todos.get().setIsChecked(0);
+                todoService.join(todos.get());
+            }
+
         }
         return "redirect:/todolist";
-
     }
 }

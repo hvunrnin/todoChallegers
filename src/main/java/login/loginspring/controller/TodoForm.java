@@ -15,6 +15,9 @@ public class TodoForm {
     private String orderNum;
     private String mode;
 
+
+
+    private String isChecked;
     public String getId() { return id; }
 
     public void setId(String id) { this.id = id; }
@@ -48,5 +51,12 @@ public class TodoForm {
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+    public String getIsChecked() {
+        return isChecked;
+    }
+
+    public void setIsChecked(String isChecked) {
+        this.isChecked = isChecked;
     }
 }

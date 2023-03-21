@@ -225,6 +225,7 @@
               <!-- content 추가 버튼 -->
               const addBtn = document.createElement('input');
               addBtn.setAttribute('type','submit');
+              addBtn.setAttribute('class', 'addBtn');
               addBtn.setAttribute('value', '추가');
 
               form.appendChild(textField);
@@ -258,9 +259,11 @@
               const changeContent = document.createElement('input')
               changeContent.setAttribute('type','text')
               changeContent.setAttribute('name','content')
+              changeContent.setAttribute('id','content')
               changeContent.setAttribute('value',originContent)
 
               const okBtn = document.createElement('input')
+              okBtn.setAttribute('class', 'okBtn');
               okBtn.setAttribute('type','submit')
               okBtn.setAttribute('name','mode')
               okBtn.setAttribute('value','수정하기')
@@ -306,11 +309,13 @@
           <!-- goal div 생성 -->
           const goalDiv = document.createElement('div')
           goalDiv.setAttribute('id',goals[goal].category+'_div')
+          goalDiv.setAttribute('class','goal_div')
           goalDiv.setAttribute('value',goals[goal].id)
 
           <!-- goal button 생성 -->
           const goalBtn = document.createElement('button')
           goalBtn.setAttribute('id',goals[goal].category+'_btn')
+          goalBtn.setAttribute('class', 'button btnFade btnLightBlue')
           goalBtn.textContent = goals[goal].category
 
           <!-- goal event 추가 -->
@@ -324,31 +329,42 @@
                   const div = document.createElement('div')
                   div.setAttribute('id',todos[todo].id+'_div')
 
-                  const checkBox = document.createElement('input')
-                  checkBox.setAttribute('type','checkbox')
-                  checkBox.setAttribute('id','isChecked')
-                  checkBox.setAttribute('name','isChecked')
-                  checkBox.setAttribute('value','1')
+                  const form = document.createElement('form')
+                  form.setAttribute('action','/updateTodo')
+                  form.setAttribute('method','post')
 
-                  const hiddenCheckBox = document.createElement('input')
-                  hiddenCheckBox.setAttribute('type','hidden')
-                  hiddenCheckBox.setAttribute('id','isChecked')
-                  hiddenCheckBox.setAttribute('name','isChecked')
-                  hiddenCheckBox.setAttribute('value','1')
+                  const checkBtn = document.createElement('button')
+                  checkBtn.setAttribute('name','isChecked')
+                  checkBtn.setAttribute('value',todos[todo].isChecked)
+                  checkBtn.textContent = todos[todo].isChecked
+
+                  const hiddenMode = document.createElement('input')
+                  hiddenMode.setAttribute('type','hidden')
+                  hiddenMode.setAttribute('name','mode')
+                  hiddenMode.setAttribute('value','check')
+
+                  const hiddenId = document.createElement('input')
+                  hiddenId.setAttribute('type','hidden')
+                  hiddenId.setAttribute('name','id')
+                  hiddenId.setAttribute('value',todos[todo].id)
 
                   const todoDiv = document.createElement('div')
                   todoDiv.setAttribute('id',todos[todo].id)
+                  todoDiv.setAttribute('class','todos')
                   todoDiv.setAttribute('value',todos[todo].content)
                   todoDiv.textContent = todos[todo].content
 
                   <!-- 수정 버튼 -->
                   const modBtn = document.createElement('button')
                   modBtn.setAttribute('id',todos[todo].id+'_btn')
+                  modBtn.setAttribute('class', 'modBtn');
                   addEventToModBtn(todos[todo].id,todos[todo].id+'_btn')
                   modBtn.textContent = '수정'
 
+                  form.appendChild(checkBtn)
+                  form.appendChild(hiddenMode)
+                  form.appendChild(hiddenId)
                   todoDiv.appendChild(modBtn)
-                  div.appendChild(checkBox)
                   div.appendChild(todoDiv)
                   feedDiv.appendChild(div)
 
