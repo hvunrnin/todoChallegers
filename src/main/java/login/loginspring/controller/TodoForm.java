@@ -13,14 +13,15 @@ public class TodoForm {
     private String content;
     private String goalId;
     private String orderNum;
+    private String mode;
 
     public String getId() { return id; }
 
     public void setId(String id) { this.id = id; }
+
     public String getContent() {
         return content;
     }
-
     public void setContent(String content) {
         this.content = content;
     }
@@ -41,4 +42,11 @@ public class TodoForm {
         this.orderNum = orderNum;
     }
 
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
 }

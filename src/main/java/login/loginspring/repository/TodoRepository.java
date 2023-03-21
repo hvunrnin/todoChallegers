@@ -17,4 +17,5 @@ public interface TodoRepository /*extends JpaRepository<Todos,Integer>*/ {
     List<Todos> findByDate(Date date);
     List<Todos> findByOrderNum(Integer orderNum);
     List<Todos> findAll();
+    void deleteById(Integer id);
 }

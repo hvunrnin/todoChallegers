@@ -18,11 +18,11 @@ public class TodoService {
     public void join(Todos todos){
         todoRepository.save(todos);
     }
-    public void delete(int todoId) {
-        Optional<Todos> todo = findById(todoId);
-        todoRepository.remove(todo.get());
+    public void delete(Integer todoId) {
+        todoRepository.deleteById(todoId);
+
     }
-    public void deleteGoal(int goalId) {
+    public void deleteGoal(Integer goalId) { //goal을 삭제하면 goal하위의 todo도 삭제되야하기 떄문
         System.out.println("in todo delete " + goalId);
         List<Todos> todos = findContents(goalId);
         for(int i = 0; i < todos.size(); i++) {

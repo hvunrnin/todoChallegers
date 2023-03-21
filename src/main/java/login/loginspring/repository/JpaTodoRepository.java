@@ -60,4 +60,11 @@ public class JpaTodoRepository implements TodoRepository{
         List<Todos> result = em.createQuery("select t from todos t", Todos.class).getResultList();
         return result;
     }
+
+    @Override
+    public void deleteById(Integer id){
+        Todos todos = em.find(Todos.class, id);
+        em.remove(todos);
+    }
+
 }

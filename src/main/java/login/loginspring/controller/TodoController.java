@@ -57,6 +57,7 @@ public class TodoController {
     @GetMapping("/todolist")
     public String main(Model model, Authentication authentication){
         Member member = (Member) authentication.getPrincipal(); //로그인된 사용자 정보
+        model.addAttribute("id",member.getUserId());
         model.addAttribute("name", member.getUserName());
         model.addAttribute("message", member.getUserMessage());
         ArrayList<String> cal = calenderService.changeYearMonth(current_year, current_month);
@@ -159,13 +160,36 @@ public class TodoController {
 
     @PostMapping("/updateTodo")
     public String updateTodo(TodoForm form){
-        System.out.println(form.getId());
-        System.out.println(form.getContent());
-        Optional<Todos> todos = todoService.findById(Integer.valueOf(form.getId()));
+        System.out.println(form.getMode());
+        if(form.getMode().equals("수정하기")){
+            if(form.getContent().equals("")){
+                System.out.println("데이터 삭제하라우");
+                todoService.delete(Integer.valueOf(form.getId()));
+            }else {
+                Optional<Todos> todos = todoService.findById(Integer.valueOf(form.getId()));
+                todos.get().setContent(form.getContent());
+                todoService.join(todos.get());
+            }
+        }else if(form.getMode().equals("내일 하기")){
+            String [] result = feed_date.split("-");
+            int year = Integer.valueOf(result[0]);
+            int month = Integer.valueOf(result[1]);
+            int date = Integer.valueOf(result[2])+1;
 
-        todos.get().setContent(form.getContent());
-        todoService.join(todos.get());
-        System.out.println("성공했구연"+form.getId() +":" + form.getContent());
+            String tomorrow = year+"-"+(month<10?"0"+month:month)+"-"+(date<10?"0"+date:date);
+
+            Optional<Todos> todos = todoService.findById(Integer.valueOf(form.getId()));
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                todos.get().setDate(formatter.parse(tomorrow));
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+            todoService.join(todos.get());
+        }else if(form.getMode().equals("삭제하기")){
+            todoService.delete(Integer.valueOf(form.getId()));
+        }
         return "redirect:/todolist";
+
     }
 }
