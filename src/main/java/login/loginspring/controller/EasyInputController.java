@@ -39,6 +39,13 @@ public class EasyInputController {
         return "easyinput/easyinputList";
     }
 
+    @GetMapping("/easyinput/new")
+    public String create(String category, Model model) {
+        Optional<Goals> goal = goalService.findByCategory(category);
+        model.addAttribute("goal", goal.get());
+        return "easyinput/createEasyInputForm";
+    }
+
     @PostMapping("/easyinput/new")
     public String afterinput(EasyInputForm form, Authentication authentication) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -47,6 +54,8 @@ public class EasyInputController {
 
         Member member = (Member) authentication.getPrincipal(); //로그인한 사용자 정보
         String memberId = member.getUserId();
+
+        todo.setOrderNum(-1);
 
         todo.setUserId(memberId); // 로그인한 사용자의 id로 받아오기
         todo.setGoalId(Integer.valueOf(form.getGoalID()));
@@ -93,13 +102,6 @@ public class EasyInputController {
         todoService.join(todo);
 
         return "redirect:/easyinput";
-    }
-
-    @RequestMapping("/easyinput/new")
-    public String create(String category, Model model) {
-        Optional<Goals> goal = goalService.findByCategory(category);
-        model.addAttribute("goal", goal.get());
-        return "easyinput/createEasyInputForm";
     }
 
     @RequestMapping("/easyinput/update")

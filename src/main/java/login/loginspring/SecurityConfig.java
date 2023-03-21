@@ -44,7 +44,7 @@ public class SecurityConfig{
         httpSecurity
                 .authorizeRequests()
                     .antMatchers("/login", "/signUp", "/access_denied").permitAll()
-                    .antMatchers("/todolist", "/profile_edit", "/menu", "/goals", "/goals/new", "/challengeList", "/challenges/new").hasRole("USER")
+                    .antMatchers("/todolist", "/profile_edit", "/menu", "/goals/**", "/challengeList", "/challenges/new", "/easyinput/**").hasRole("USER")
                     .antMatchers("/userAccess").hasRole("ADMIN")
                     .and()
                 .formLogin()
