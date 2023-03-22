@@ -51,17 +51,30 @@ body {
   color: #161346;
 }
 
-main {
-  font-family: 'Gowun Dodum', sans-serif;
-  display: grid;
-  margin: 24px 130px;
-  grid-template-rows: 1fr 1.5fr 7fr;
-  grid-template-columns: 450px minmax(500px, 1fr);
-  gap: 30px 50px;
-  grid-template-areas:
-  'challenges feed'
-  'profile feed'
-  'calender feed';
+@media screen and (min-width: 600px) {
+    main{
+        font-family: 'Nanum Gothic', sans-serif;
+        display: grid;
+        margin: 24px 130px;
+        grid-template-rows: 1fr 1.5fr 7fr;
+        grid-template-columns: 450px 500px;
+        gap: 30px 50px;
+        grid-template-areas:
+        'challenges feed'
+        'profile feed'
+        'calender feed';
+    }
+}
+
+@media screen and (max-width: 600px) {
+    main {
+        font-family: 'Nanum Gothic', sans-serif;
+        /*font-family: 'Gowun Dodum', sans-serif;*/
+        display: flex;
+        flex-direction: column;
+        margin: 10px;
+        gap: 20px;
+    }
 }
 
 section {
