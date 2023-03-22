@@ -1,17 +1,24 @@
 /*BODY*/
 
+#menuButton{
+        width: 30px;
+        height: 30px;
+        padding:0px;
+        border:none;
+}
+
 /*팝업창*/
 #popup {
     display: none; /*숨기기*/
     position: fixed;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.9);
+    background: #f5f5f5bd;
 }
 
 #popmenu {
     display: flex;
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
@@ -19,11 +26,29 @@
     height: 200px;
     text-align: center;
     background: #fff;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border-radius: 30px;
+    box-shadow: 10px 10px 10px grey;
 }
 
 #popmenu p {
     margin-top: 20px;
     margin-bottom: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'Gowun Dodum', sans-serif;
+    color: black;
+}
+
+#popmenu a {
+    text-decoration:none;
+    color:black;
+    font-size: 20px;
+}
+
+#popmenu a:hover {
+    color:#0078FF;
 }
 
 .exit {
