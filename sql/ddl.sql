@@ -56,5 +56,3 @@ END_DATE DATE,
 MEMO VARCHAR(100),
 PRIMARY KEY (TITLE)
 );
-
-insert into goals values (0,'cindy',0,''),(1,'cindy',1,'할일')

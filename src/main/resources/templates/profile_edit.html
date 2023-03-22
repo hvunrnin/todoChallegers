@@ -5,17 +5,19 @@
     <link rel="stylesheet" href="/css/loginstyle.css">
     <link rel="stylesheet" href="/css/btn.css">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Poppins:wght@400;700&display=swap"
-            rel="stylesheet"
-    >
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+    </style>
 </head>
 
 <body>
 <div class="container">
-    <h4>프로필 수정</h4>
     <form action="/profile_edit" method="post">
+        <div class="navigation">
+            <a href="/todolist"><img id="back" src="/img/next.png"></a>
+            <p id="profile">프로필 수정</p>
+            <img id="hidden-back" src="/img/next.png">
+        </div>
         <div class="form-group">
             <input type="file" id="img" name="UpdateImg" multiple="multiple">
             <input type="text" id="name" name="UpdateName" th:value="${name}" placeholder="닉네임">

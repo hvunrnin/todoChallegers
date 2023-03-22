@@ -46,22 +46,53 @@ html {
 }
 
 body {
+  position: relative;
+  width: 100%;
+  height: 100%;
   margin: 0;
   background-color: #ffffff;
   color: #161346;
 }
 
-main {
-  font-family: 'Gowun Dodum', sans-serif;
-  display: grid;
-  margin: 24px 130px;
-  grid-template-rows: 1fr 1.5fr 7fr;
-  grid-template-columns: 450px minmax(500px, 1fr);
-  gap: 30px 50px;
-  grid-template-areas:
-  'challenges feed'
-  'profile feed'
-  'calender feed';
+@media screen and (min-width: 1000px) {
+    main{
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%);
+        font-family: 'Nanum Gothic', sans-serif;
+        display: grid;
+        grid-template-rows: 1fr 1.5fr 7fr;
+        grid-template-columns: 450px 500px;
+        gap: 0px 50px;
+        grid-template-areas:
+        'challenges feed'
+        'profile feed'
+        'calender feed';
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    main {
+        font-family: 'Nanum Gothic', sans-serif;
+        display: grid;
+        grid-template-rows: 1fr 1.5fr 7fr;
+        grid-template-columns: 450px 500px;
+        gap: 0px 50px;
+        grid-template-areas:
+        'challenges feed'
+        'profile feed'
+        'calender feed';
+    }
+}
+
+@media screen and (max-width: 600px) {
+    main {
+        font-family: 'Nanum Gothic', sans-serif;
+        /*font-family: 'Gowun Dodum', sans-serif;*/
+        display: flex;
+        flex-direction: column;
+        margin: 10px;
+    }
 }
 
 section {

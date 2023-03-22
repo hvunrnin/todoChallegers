@@ -1,30 +1,88 @@
 .container{
+    font-family: 'Nanum Gothic', sans-serif;
+    margin-top: 200px;
     display: flex;
     flex-direction: column;
     gap: 30px;
     text-align: center;
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navigation{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 400px;
+    gap: 120px;
+}
+
+#back, #hidden-back{
+    width: 20px;
+}
+
+#hidden-back{
+    visibility: hidden;
+}
+
+#title{
+    font-size: 26px;
+    font-weight: bold;
+    margin:0;
+}
+
+#profile{
+    font-size: 24px;
+    font-weight: bold;
+    margin:0;
+}
+
+
 .form-group{
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 400px;
+    margin-top: 70px;
     gap: 20px;
 }
 
+input:focus{
+    outline : none;
+}
+
 #id, #pw, #name, #message {
+    background: transparent;
+    border: none;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: 2px solid #6AAFE6;
     width: 400px;
     height: 50px;
-    border: 1px solid gray;
 }
 
 h4{
-    font-family: Poppins, sans-serif;
     font-size: 30px;
 }
 
 button{
-    font-family: Poppins, sans-serif;
     width: 350px;
     margin-top: 80px;
+}
+
+.help{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.link{
+    text-decoration-line: none;
+    color: gray;
+    font-size: 13px;
 }
