@@ -68,8 +68,8 @@ public class GoalController {
         Optional<Goals> goals = goalService.findById(form.getId());
         goals.get().setCategory(form.getCategory());
         if(form.getDelete().equals("delete")) {
-            goalService.delete(goals.get());
             todoService.deleteGoal(goals.get().getId());
+            goalService.delete(goals.get());
         }
         else { goalService.join(goals.get()); }
 

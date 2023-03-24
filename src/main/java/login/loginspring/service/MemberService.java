@@ -31,14 +31,24 @@ public class MemberService implements UserDetailsService {
 
 //    회원가입 시 db에 회원 저장
     @Transactional
-    public void joinUser(Member member){
+    public boolean joinUser(Member member){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         member.setUserRpw(member.getUserPw());
         member.setUserPw(passwordEncoder.encode(member.getPassword()));
         member.setUserAuth("ROLE_USER");
         member.setAppendDate(localTime);
         member.setUpdateDate(localTime);
-        memberRepository.save(member);
+        if(validateDuplicateMember(member)==true){
+            return false;
+        }
+        else{
+            memberRepository.save(member);
+        }
+        return true;
+    }
+
+    private boolean validateDuplicateMember(Member member) {
+        return memberRepository.findById(member.getUserId()).isPresent();
     }
 
     @Transactional

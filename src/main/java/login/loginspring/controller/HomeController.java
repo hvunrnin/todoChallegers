@@ -33,6 +33,9 @@ public class HomeController {
         return "signup";
     }
 
+//    @PostMapping("/signUP")
+//    public String signUpFail() {return "signUp_denied";}
+
     /**로그인 실패 폼*/
     @GetMapping("/access_denied")
     public String accessDenied(){
@@ -42,7 +45,10 @@ public class HomeController {
     /**회원가입 진행*/
     @PostMapping("/signUp")
     public String signUp(Member member) {
-        memberService.joinUser(member);
-        return "redirect:/login"; //로그인 구현 예정
+        boolean result= memberService.joinUser(member);
+        if(result==true){
+            return "redirect:/login"; //로그인 구현 예정
+        }
+        return "signUp_denied";
     }
 }
