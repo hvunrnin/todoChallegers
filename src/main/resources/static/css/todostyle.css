@@ -1,5 +1,6 @@
 html {
   font-size: 16px;
+  height: 100%;
 }
 
 .nav-bar {
@@ -241,10 +242,26 @@ input:focus{
     gap: 10px;
 }
 
+.todo_div{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
 .todos{
     width: 400px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.checkBtn, .modBtn{
+    background: transparent;
+    border: none;
+}
+
+#checkbox{
+    width: 30px;
 }
 
 #content{
@@ -258,7 +275,7 @@ input:focus{
 }
 
 
-.addBtn, .modBtn, .okBtn {
+.addBtn, .okBtn {
     width: 45px;
     height: 30px;
     padding: 0;
@@ -269,4 +286,21 @@ input:focus{
     background: transparent;
     border-color: #0078FF;
     color: #0078FF;
+}
+
+.popupBtn {
+    width: 80px;
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    border-radius: 10px;
+    border-width: 1px;
+    background: transparent;
+    border-color: #0078FF;
+    color: #0078FF;
+}
+
+#additionalImg{
+    width: 20px;
 }

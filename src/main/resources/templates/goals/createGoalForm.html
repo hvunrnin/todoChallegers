@@ -1,14 +1,38 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<head>
+    <link rel="stylesheet" href="/css/goalsnew.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Poppins:wght@400;700&display=swap"
+            rel="stylesheet"
+    >
+</head>
 <body>
 <div class="container">
-    <h1>목표</h1>
-    <form action="/goals/new" method="post">
+    <h4>목표</h4>
+    <form action="/goals/new" method="post" name = "goalForm" onsubmit="return checkNull();">
         <div class="form-group">
-            <input type="text" id="category" name="category" placeholder="목표를 입력하세요">
-            <button type="submit">확인</button>
+            <input type="text" id="category" name="category" placeholder="목표를 입력하세요" value ="">
+            <button type="submit" class="plusGoaloutline plusGoalinline">확인</button>
         </div>
     </form>
 </div>
+<script>
+    function checkNull() {
+        if(goalForm.category.value.length > 10)  {
+            alert("목표는 최대 10글자까지 가능합니다.");
+            return false;
+        }
+        else if(goalForm.category.value == "") {
+            alert("목표를 입력해주세요.");
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+</script>
 </body>
 </html>

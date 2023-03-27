@@ -36,11 +36,11 @@ public class Todos {
 
     private String repeat_monthly;
 
-    public String getRepeat_montly() {
+    public String getRepeat_monthly() {
         return repeat_monthly;
     }
 
-    public void setRepeat_montly(String repeat_montly) {
+    public void setRepeat_monthly(String repeat_monthly) {
         this.repeat_monthly = repeat_monthly;
     }
 

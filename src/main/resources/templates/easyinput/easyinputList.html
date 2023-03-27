@@ -1,54 +1,60 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/easyinput.css">
+    <link rel="stylesheet" href="/css/btn.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Poppins:wght@400;700&display=swap"
+            rel="stylesheet"
+    >
+</head>
 <body>
 <div class = "container">
-    <div>
-        <h1>간편 입력</h1>
-            <script th:inline="javascript">
-                var goals = new Array();
-                [# th:each = "goals : ${goals}"]
-                console.log([[${goals.category}]]);
-                console.log([[${goals.id}]]);
-                goals.push([[${goals}]]);
-                [/]
+    <h4>간편 입력</h4>
+    <script th:inline="javascript">
+            var goals = new Array();
+            [# th:each = "goals : ${goals}"]
+            console.log([[${goals.category}]]);
+            console.log([[${goals.id}]]);
+            goals.push([[${goals}]]);
+            [/]
 
-                var todos = new Array();
-                [# th:each = "todos : ${todos}"]
-                console.log([[${todos.content}]]);
-                console.log([[${todos.id}]]);
-                todos.push([[${todos}]]);
-                [/]
-            </script>
-            <div id="easyinput"></div>
-    </div>
+            var todos = new Array();
+            [# th:each = "todos : ${todos}"]
+            console.log([[${todos.content}]]);
+            console.log([[${todos.id}]]);
+            todos.push([[${todos}]]);
+            [/]
+        </script>
+    <div id="easyinput"></div>
 </div>
 <script>
     function makeGoals(goals, todos) {
-
         const element = document.getElementById("easyinput");
 
         for(goal in goals) {
             let makeGoalBtn = '<div name=' + goals[goal].category + '>';
                 makeGoalBtn += '<button id='+goals[goal].category+
-                '_btn onclick = ' + '"create(\'' + goals[goal].category+'\')">' + goals[goal].category + '</button>';
+                '_btn class = \"goalBtn\" onclick = ' + '"create(\'' + goals[goal].category+'\')">' + goals[goal].category + '</button>';
                 makeGoalBtn += '</div>';
             console.log(makeGoalBtn);
             element.innerHTML += makeGoalBtn;
 
             var goal_todos = new Array();
             for(todo in todos) {
-                if(todos[todo].goalId == goals[goal].id) {
+                if(todos[todo].goalId == goals[goal].id && todos[todo].orderNum == -1) {
                     goal_todos.push(todos[todo]);
                 }
             }
 
             for(todo in goal_todos) {
                 var value = "";
-                if(goal_todos[todo].repeat_montly != null) {
+                if(goal_todos[todo].repeat_monthly != null) {
                     value = "매월 ";
                     const search = '.';
                     const replaceWith = ' ';
-                    const result = goal_todos[todo].repeat_montly.split(search).join(replaceWith);
+                    const result = goal_todos[todo].repeat_monthly.split(search).join(replaceWith);
                     value += result;
                 }
                 else {
@@ -64,16 +70,17 @@
 
                     if(every == 7) value = "매일";
                 }
-                let makeTodoBtn = '<p><button id = ' + goal_todos[todo].content
-                    + ' onclick = ' + '"update(\'' + goal_todos[todo].id + '\')">'
-                    + ' ' + goal_todos[todo].content
-                    + ' ' + goal_todos[todo].startDate
+                let makeTodoBtn = '<button id = ' + goal_todos[todo].content
+                    + ' class = \"todoBtn\" onclick = ' + '"update(\'' + goal_todos[todo].id + '\')">'
+                    + goal_todos[todo].content
+                    + '</button>';
+                let makeTodoDetail = '<p class = "todoDetail">' + goal_todos[todo].startDate
                     + ' ' + goal_todos[todo].endDate
                     + ' ' + value
-                    + '</button></p>';
+                    + '</p>';
 
-                console.log(makeTodoBtn);
                 element.innerHTML += makeTodoBtn;
+                element.innerHTML += makeTodoDetail;
             }
         }
     }

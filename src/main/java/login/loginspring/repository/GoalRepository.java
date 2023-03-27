@@ -13,6 +13,7 @@ public interface GoalRepository {
     Goals remove(Goals goals);
 
     Optional<Goals> findById(Integer id);
+    List<Goals> findByUserId(String userId);
     Optional<Goals> findByOrderNum(Integer orderNum);
     Optional<Goals> findByCategory(String category);
     List<Goals> findAll();

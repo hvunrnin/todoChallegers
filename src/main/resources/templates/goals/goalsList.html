@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
 <head>
-    <link rel="stylesheet" href="/css/goals.css">
+    <link rel="stylesheet" href="/css/easyinput.css">
+    <link rel="stylesheet" href="/css/btn.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
             href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Poppins:wght@400;700&display=swap"
@@ -11,20 +12,16 @@
 </head>
 <body>
 <div class="container">
-    <div>
-        <h4>목표</h4>
-        <!--<a href="/goals/new">+</a>-->
-        <!--<form action="goals" method="post">-->
-            <script th:inline="javascript">
-                var goals = new Array();
-                [# th:each="goals : ${goals}"]
-                console.log([[${goals.category}]]);
-                goals.push([[${goals}]]);
-                [/]
-            </script>
-        <button type="button" class="plusGoaloutline plusGoalinline" onclick="location.href='/goals/new'">추가하기</button>
-            <div id = "goalsList"></div>
-    </div>
+    <h4>목표</h4>
+    <script th:inline="javascript">
+            var goals = new Array();
+            [# th:each="goals : ${goals}"]
+            console.log([[${goals.category}]]);
+            goals.push([[${goals}]]);
+            [/]
+        </script>
+    <div id = "goalsList"></div>
+    <button type="button" class="w-btn-outline w-btn-blue-outline" onclick="location.href='/goals/new'">추가하기</button>
 </div>
 <script>
     function makeGoals(goals) {
@@ -32,7 +29,7 @@
         for(goal in goals) {
         let makeGoalBtn = '<div id=' + goals[goal].category + ' class = \"goal_div\">';
             makeGoalBtn += '<button id=' + goals[goal].category +
-            '_btn onclick = ' + '"update(\'' + goals[goal].category + '\')">' + goals[goal].category + '</button>';
+            '_btn class = \"goalBtn\" onclick = ' + '"update(\'' + goals[goal].category + '\')">' + goals[goal].category + '</button>';
             makeGoalBtn += '</div>';
         console.log(makeGoalBtn);
         element.innerHTML += makeGoalBtn;

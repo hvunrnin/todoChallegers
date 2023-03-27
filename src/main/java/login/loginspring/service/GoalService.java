@@ -33,6 +33,11 @@ public class GoalService {
     /* 전체 목표 조회 */
     public List<Goals> findGoals() { return goalRepository.findAll(); } //findId로 해야함(?)
 
+    /* user id로 전체 목표 조회 */
+    public List<Goals> findGoalsByUserId(String userId) {
+        return goalRepository.findByUserId(userId);
+    }
+
     /* 한 목표 조회 with category */
     public Optional<Goals> findByCategory(String category) { return goalRepository.findByCategory(category);}
 

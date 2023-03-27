@@ -33,13 +33,13 @@ public class JpaTodoRepository implements TodoRepository{
 
     @Override
     public List<Todos> findByUserId(String userId) {
-        List<Todos> result = em.createQuery("select t from todos t where t.user_id = :user_id", Todos.class).setParameter("user_id",userId).getResultList();
+        List<Todos> result = em.createQuery("select t from todos t where t.userId = :userId", Todos.class).setParameter("userId",userId).getResultList();
         return result;
     }
 
     @Override
     public List<Todos> findByGoalId(Integer goalId) {
-        List<Todos> result = em.createQuery("select t from todos t where t.goal_id = :goal_id", Todos.class).setParameter("goal_id",goalId).getResultList();
+        List<Todos> result = em.createQuery("select t from todos t where t.goalId = :goalId", Todos.class).setParameter("goalId",goalId).getResultList();
         return result;
     }
 

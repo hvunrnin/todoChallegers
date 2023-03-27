@@ -1,0 +1,77 @@
+h4{
+    font-family: Poppins, sans-serif;
+    font-size: 30px;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+    justify-items: center;
+    align-items: center;
+}
+
+.goalBtn {
+    display: block;
+    position: relative;
+    float: left;
+    width: 150px;
+    height: 40px;
+    padding: 0;
+    font-weight: 600;
+    text-align: center;
+    color: #FFF;
+    border-radius: 30px;
+    border-width:0px;
+    transition: all 0.2s ;
+    background: #50C8FF;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.todoBtn {
+    display: block;
+    position: relative;
+    float: left;
+    width: 300px;
+    height: 40px;
+    padding: 0;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 30px;
+    border-width:0px;
+    transition: all 0.2s ;
+    background: white;
+    border: 2px solid #50C8FF
+}
+
+.todoDetail{
+    margin: 0;
+}
+
+.goal_div {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    gap: 10px;
+    width:450px;
+    height:60px;
+}
+
+button:hover {
+    background:#0078FF;
+    color:white;
+}
+
+todoDetail{
+    width:200px;
+}
+
+#easyinput, #goalsList{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+

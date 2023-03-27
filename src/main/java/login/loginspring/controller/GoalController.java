@@ -28,6 +28,29 @@ public class GoalController {
         this.todoService = todoService;
     }
 
+    @GetMapping("/goals")
+    public String list(Model model, Authentication authentication) {
+        Member member = (Member) authentication.getPrincipal(); //로그인한 사용자 정보
+        String memberId = member.getUserId();
+        List<Goals> goals = goalService.findGoalsByUserId(memberId);
+        model.addAttribute("goals", goals);
+        return "goals/goalsList"; // goals 폴더에 있는 goalsList.html 열기
+
+    }
+
+    @PostMapping("/goals")
+    public String updateGoal(GoalForm form) { // 수정하고 확인을 누르면 여기로 와
+        Optional<Goals> goals = goalService.findById(form.getId());
+        goals.get().setCategory(form.getCategory());
+        if(form.getDelete().equals("delete")) {
+            todoService.deleteGoal(goals.get());
+            goalService.delete(goals.get());
+        }
+        else { goalService.join(goals.get()); }
+
+        return "redirect:/goals";
+    }
+
     @GetMapping("/goals/new")
     public String createForm() {
         return "goals/createGoalForm";
@@ -54,25 +77,5 @@ public class GoalController {
         Optional<Goals> goal = goalService.findByCategory(category);
         model.addAttribute("goal", goal.get());
         return "goalsUpdate";
-    }
-
-    @GetMapping("/goals")
-    public String list(Model model) {
-        List<Goals> goals = goalService.findGoals();
-        model.addAttribute("goals", goals);
-        return "goals/goalsList"; // goals 폴더에 있는 goalsList.html 열기
-    }
-
-    @PostMapping("/goals")
-    public String updateGoal(GoalForm form) { // 수정하고 확인을 누르면 여기로 와
-        Optional<Goals> goals = goalService.findById(form.getId());
-        goals.get().setCategory(form.getCategory());
-        if(form.getDelete().equals("delete")) {
-            todoService.deleteGoal(goals.get().getId());
-            goalService.delete(goals.get());
-        }
-        else { goalService.join(goals.get()); }
-
-        return "redirect:/goals";
     }
 }

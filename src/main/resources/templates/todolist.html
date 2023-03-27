@@ -20,6 +20,8 @@
   <link rel="stylesheet" href="/css/todostyle.css">
   <link rel="stylesheet" href="/css/goalBtn.css">
   <link rel="stylesheet" href="/css/menu.css">
+  <link rel="stylesheet" href="/css/popupstyle.css">
+
   <script type = "text/javascript"></script>
 
   <body>
@@ -28,7 +30,7 @@
         <li class="logo"><a href=""><span class="accent">TodoChallengers</span></a></li>
         <li class="nav-item">
           <a href="/logout_proc">로그아웃</a>
-          <button type="button" id="menuButton" onclick = "fadePopUp()"><img src="/img/menu.png" width=30 height=30></button>
+          <button type="button" id="menuButton"><img src="/img/menu.png" width=30 height=30></button>
         </li>
       </ul>
   </nav>
@@ -182,6 +184,18 @@
     </main>
   </body>
   <script>
+
+  const menuOpen = () => {
+    document.getElementById("popup").style.display = "block";
+  }
+
+  document.querySelector("#menuButton").addEventListener("click", menuOpen);
+  document.querySelector("html").addEventListener("click", function(e) {
+      if(e.target.className != e.currentTarget.querySelector("#popup").className) {
+          document.getElementById("popup").style.display = "none";
+      }
+  })
+
   function fadePopUp() {
     document.getElementById("popup").style.display = "block";
   }
@@ -302,68 +316,54 @@
       })
   }
 
-  function addEventToModBtn(id,id_btn){
-      document.addEventListener('DOMContentLoaded', () => {
-          <!-- content 큰 div -->
-          const div = document.getElementById(id+'_div')
-          <!-- todo id를 담은 div -->
-          const todo_div = document.getElementById(id)
-          const todo_btn = document.getElementById(id_btn)
+  function addEventToModBtn(id){
+     document.addEventListener('DOMContentLoaded', () => {
+        <!-- content 큰 div -->
+        const div = document.getElementById(id+'_div')
+        <!-- todo id를 담은 div -->
+        const todo_lbl = document.getElementById(id+'_lbl')
+        const todo_btn = document.getElementById(id+'_btn')
+        const todo_popup = document.getElementById(id+'_popup')
 
-          const originContent = todo_div.getAttribute('value')
+        const originContent = div.getAttribute('value')
 
-          todo_btn.addEventListener('click', (event) => {
+        todo_btn.addEventListener('click', (event) => {
 
-              const form = document.createElement('form')
-              form.setAttribute('action','/updateTodo')
-              form.setAttribute('method','post')
+            const form = document.createElement('form')
+            form.setAttribute('action','/updateTodo')
+            form.setAttribute('method','post')
 
+            form.addEventListener('keyup',function(e){
+              if (e.keyCode === 13) {
+                form.submit();
+              }
+            });
 
+            const changeContent = document.createElement('input')
+            changeContent.setAttribute('type','text')
+            changeContent.setAttribute('name','content')
+            changeContent.setAttribute('id','content')
+            changeContent.setAttribute('value',originContent)
 
-              const changeContent = document.createElement('input')
-              changeContent.setAttribute('type','text')
-              changeContent.setAttribute('name','content')
-              changeContent.setAttribute('id','content')
-              changeContent.setAttribute('value',originContent)
+            const sendMode = document.createElement('input')
+            sendMode.setAttribute('type','hidden')
+            sendMode.setAttribute('name','mode')
+            sendMode.setAttribute('value','수정하기')
 
-              const okBtn = document.createElement('input')
-              okBtn.setAttribute('class', 'okBtn');
-              okBtn.setAttribute('type','submit')
-              okBtn.setAttribute('name','mode')
-              okBtn.setAttribute('value','수정하기')
+            const sendTodoId = document.createElement('input')
+            sendTodoId.setAttribute('type','hidden')
+            sendTodoId.setAttribute('name','id')
+            sendTodoId.setAttribute('value',id)
 
+            form.appendChild(changeContent)
+            form.appendChild(sendMode)
+            form.appendChild(sendTodoId)
+            div.appendChild(form)
+            div.appendChild(todo_popup)
+            todo_lbl.remove()
 
-              const tomorrowBtn = document.createElement('input')
-              tomorrowBtn.setAttribute('type','submit')
-              tomorrowBtn.setAttribute('name','mode')
-              tomorrowBtn.setAttribute('value','내일 하기')
-
-
-              const deleteBtn = document.createElement('input')
-              deleteBtn.setAttribute('type','submit')
-              deleteBtn.setAttribute('name','mode')
-              deleteBtn.setAttribute('value','삭제하기')
-
-
-              const sendTodoId = document.createElement('input')
-              sendTodoId.setAttribute('type','hidden')
-              sendTodoId.setAttribute('name','id')
-              sendTodoId.setAttribute('value',id)
-
-
-              form.appendChild(changeContent)
-              form.appendChild(okBtn)
-              form.appendChild(tomorrowBtn)
-              form.appendChild(deleteBtn)
-              form.appendChild(sendTodoId)
-              div.appendChild(form)
-              todo_div.remove()
-              todo_btn.remove()
-
-
-          })
-
-      })
+        })
+    })
   }
 
    function setTodos(goals, todos) {
@@ -392,15 +392,27 @@
                   <!-- todo content div 추가 -->
                   const div = document.createElement('div')
                   div.setAttribute('id',todos[todo].id+'_div')
+                  div.setAttribute('class', 'todo_div')
+                  div.setAttribute('value',todos[todo].content)
 
+                  <!--여기서부터-->
                   const form = document.createElement('form')
                   form.setAttribute('action','/updateTodo')
                   form.setAttribute('method','post')
 
                   const checkBtn = document.createElement('button')
                   checkBtn.setAttribute('name','isChecked')
+                  checkBtn.setAttribute('class','checkBtn')
                   checkBtn.setAttribute('value',todos[todo].isChecked)
-                  checkBtn.textContent = todos[todo].isChecked
+                  const checkImg = document.createElement('img')
+                  checkImg.setAttribute('id','checkbox')
+
+                  if(todos[todo].isChecked == 1){
+                    checkImg.setAttribute('src','/img/check.png')
+                  }else{
+                    checkImg.setAttribute('src','/img/non-check.png')
+                  }
+                  checkBtn.appendChild(checkImg)
 
                   const hiddenMode = document.createElement('input')
                   hiddenMode.setAttribute('type','hidden')
@@ -411,27 +423,107 @@
                   hiddenId.setAttribute('type','hidden')
                   hiddenId.setAttribute('name','id')
                   hiddenId.setAttribute('value',todos[todo].id)
+                  <!--여기까지 form isChecked update-->
 
-                  const todoDiv = document.createElement('div')
-                  todoDiv.setAttribute('id',todos[todo].id)
-                  todoDiv.setAttribute('class','todos')
-                  todoDiv.setAttribute('value',todos[todo].content)
-                  todoDiv.textContent = todos[todo].content
+                  <!-- todo content label 팝업 버튼이랑 연동 label 클릭시 popup 뜸-->
+                  const todoLabel = document.createElement('label')
+                  todoLabel.setAttribute('id',todos[todo].id+'_lbl')
+                  todoLabel.setAttribute('for',todos[todo].id+'_popup')
+                  todoLabel.setAttribute('class','todos')
+                  todoLabel.textContent = todos[todo].content
 
-                  <!-- 수정 버튼 -->
-                  const modBtn = document.createElement('button')
+                  <!-- 팝업 버튼 -->
+                  const popupBtn = document.createElement('button')
+                  popupBtn.setAttribute('id',todos[todo].id+'_popup')
+                  popupBtn.setAttribute('class', 'modBtn');
+                  const additionalImg = document.createElement('img')
+                  additionalImg.setAttribute('id','additionalImg')
+                  additionalImg.setAttribute('src','/img/additional.png')
+                  popupBtn.appendChild(additionalImg)
+
+                  <!--여기서부터 팝업창 구성-->
+                  const popupDiv = document.createElement('div')
+                  popupDiv.setAttribute('class','modal hidden')
+
+                  <!--팝업 배경-->
+                  const backgroundDiv = document.createElement('div')
+                  backgroundDiv.setAttribute('class','bg')
+
+                  <!--팝업 내용 + 버튼들 담은 div-->
+                  const modalBoxDiv = document.createElement('div')
+                  modalBoxDiv.setAttribute('class','modalBox')
+
+                  <!-- 팝업 내용 -->
+                  const popupContent = document.createElement('p')
+                  popupContent.textContent = todos[todo].content
+
+                  <!--팝업 닫기 버튼-->
+                  const closeBtn = document.createElement('button')
+                  closeBtn.setAttribute('class','closeBtn')
+                  closeBtn.textContent = '✖'
+
+                  <!-- 팝업 닫고 수정하는 거 만들기 -->
+                  const modBtn = document.createElement('input')
                   modBtn.setAttribute('id',todos[todo].id+'_btn')
-                  modBtn.setAttribute('class', 'modBtn');
-                  addEventToModBtn(todos[todo].id,todos[todo].id+'_btn')
-                  modBtn.textContent = '수정'
+                  modBtn.setAttribute('class', 'popupBtn');
+                  modBtn.setAttribute('type','submit')
+                  modBtn.setAttribute('value','수정하기')
+
+                  <!-- 팝업창 업데이트 form 내일하기 삭제하기 + id 보내는 hidden -->
+                  const popupForm = document.createElement('form')
+                  popupForm.setAttribute('action','/updateTodo')
+                  popupForm.setAttribute('method','post')
+
+                  const tomorrowBtn = document.createElement('input')
+                  tomorrowBtn.setAttribute('class', 'popupBtn');
+                  tomorrowBtn.setAttribute('type','submit')
+                  tomorrowBtn.setAttribute('name','mode')
+                  tomorrowBtn.setAttribute('value','내일 하기')
+
+                  const deleteBtn = document.createElement('input')
+                  deleteBtn.setAttribute('class', 'popupBtn');
+                  deleteBtn.setAttribute('type','submit')
+                  deleteBtn.setAttribute('name','mode')
+                  deleteBtn.setAttribute('value','삭제하기')
+
+                  const sendTodoId = document.createElement('input')
+                  sendTodoId.setAttribute('type','hidden')
+                  sendTodoId.setAttribute('name','id')
+                  sendTodoId.setAttribute('value',todos[todo].id)
+
+                  popupForm.appendChild(tomorrowBtn)
+                  popupForm.appendChild(deleteBtn)
+                  popupForm.appendChild(sendTodoId)
+
+                  modalBoxDiv.appendChild(popupContent)
+                  modalBoxDiv.appendChild(modBtn)
+                  modalBoxDiv.appendChild(popupForm)
+                  modalBoxDiv.appendChild(closeBtn)
+                  popupDiv.appendChild(backgroundDiv)
+                  popupDiv.appendChild(modalBoxDiv)
+
+                  const open = () => {
+                    popupDiv.classList.remove("hidden");
+                  }
+
+                  const close = () => {
+                    popupDiv.classList.add("hidden");
+                  }
+
+                  popupBtn.addEventListener("click", open);
+                  closeBtn.addEventListener("click", close);
+                  backgroundDiv.addEventListener("click", close);
+                  modBtn.addEventListener("click",close);
+                  addEventToModBtn(todos[todo].id)
 
                   form.appendChild(checkBtn)
                   form.appendChild(hiddenMode)
                   form.appendChild(hiddenId)
-                  todoDiv.appendChild(form)
-                  todoDiv.appendChild(modBtn)
-                  div.appendChild(todoDiv)
+                  todoLabel.appendChild(popupBtn)
+                  div.appendChild(form)
+                  div.appendChild(todoLabel)
                   feedDiv.appendChild(div)
+                  feedDiv.appendChild(popupDiv)
 
               }
           }

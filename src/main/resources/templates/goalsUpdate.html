@@ -1,25 +1,27 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<head>
+    <link rel="stylesheet" href="/css/goalsupdate.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Poppins:wght@400;700&display=swap"
+            rel="stylesheet"
+    >
+</head>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <body>
 <div class="container">
-    <h1>목표</h1>
+    <h4>목표</h4>
     <form action="/goals" method="post">
         <div class="form-group">
             <input type="text" id = "userCategory" name = "category" value = "">
             <input type="hidden" id = "userId" name = "id" value="">
             <input type = "hidden" id = "deleteCategory" name = "delete" value = "">
-            <button type = "submit" id = "submit">확인</button>
-            <input type="button" value = "삭제" onclick = "deleteGoal();">
-        </div>
-
-        <div id = "popDelete" style="display:none">
-            <p>정말 목표를 삭제하시겠습니까?</p>
-            <p>포함되어 있던 할 일들은 모두 삭제됩니다.</p>
-            <input type = "button" id = "nodelete" onclick = "noDelete()" value = "취소">
-            <input type = "button" id = "yesdelete" onclick = "yesDelete()" value = "삭제">
+            <button type = "submit" class="plusGoaloutline plusGoalinline" id = "submit">확인</button>
+            <input type="button" class="plusGoaloutline plusGoalinline" value = "삭제" onclick = "deleteGoal();">
         </div>
     </form>
 </div>
@@ -30,12 +32,7 @@
     document.getElementById("userId").value = id;
 
     function deleteGoal() {
-        document.getElementById('popDelete').style.display = "block";
-    }
-    function noDelete() {
-        document.getElementById('popDelete').style.display = "none";
-    }
-    function yesDelete(){
+        alert("정말 삭제하시겠습니까?\n포함되어 있던 할 일들은 모두 삭제됩니다.");
         document.getElementById("deleteCategory").value = "delete";
         document.getElementById('submit').click();
     }

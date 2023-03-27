@@ -27,6 +27,13 @@ public class JpaGoalRepository implements GoalRepository {
     }
 
     @Override
+    public List<Goals> findByUserId(String userId) {
+        List<Goals> result = em.createQuery("select m from goals m where m.userId = :userId", Goals.class).setParameter("userId", userId).getResultList();
+        return result;
+    }
+
+
+    @Override
     public Optional<Goals> findById(Integer id) {
         Goals goals = em.find(Goals.class, id);
         return Optional.ofNullable(goals);

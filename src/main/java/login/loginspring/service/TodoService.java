@@ -1,5 +1,6 @@
 package login.loginspring.service;
 
+import login.loginspring.domain.Goals;
 import login.loginspring.domain.Todos;
 import login.loginspring.repository.TodoRepository;
 
@@ -22,15 +23,16 @@ public class TodoService {
         todoRepository.deleteById(todoId);
 
     }
-    public void deleteGoal(Integer goalId) { //goal을 삭제하면 goal하위의 todo도 삭제되야하기 떄문
-        System.out.println("in todo delete " + goalId);
-        List<Todos> todos = findContents(goalId);
+    public void deleteGoal(Goals goals) { //goal을 삭제하면 goal하위의 todo도 삭제되야하기 떄문
+        List<Todos> todos = findContents(goals.getId());
+
         for(int i = 0; i < todos.size(); i++) {
             todoRepository.remove(todos.get(i));
         }
     }
 
-    public List<Todos> findContents(Integer goalId) {return todoRepository.findByGoalId(goalId).stream().toList();}
+    public List<Todos> findTodosByUserId(String userId) { return todoRepository.findByUserId(userId);}
+    public List<Todos> findContents(Integer goalId) {return todoRepository.findByGoalId(goalId);}
     public List<Todos> findTodos() {
         return todoRepository.findAll();
     }
