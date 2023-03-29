@@ -64,7 +64,7 @@ body {
         display: grid;
         grid-template-rows: 1fr 1.5fr 7fr;
         grid-template-columns: 450px 500px;
-        gap: 0px 50px;
+        gap: 0px 120px;
         grid-template-areas:
         'challenges feed'
         'profile feed'
@@ -78,7 +78,7 @@ body {
         display: grid;
         grid-template-rows: 1fr 1.5fr 7fr;
         grid-template-columns: 450px 500px;
-        gap: 0px 50px;
+        gap: 0px 120px;
         grid-template-areas:
         'challenges feed'
         'profile feed'
@@ -99,7 +99,8 @@ body {
 section {
   padding: 32px;
   border-radius: 16px;
-  background-color: #fff1db;
+  /*background-color: #fff1db;*/
+  background-color: #ffffff;
 }
 
 .challenges {
@@ -188,11 +189,11 @@ p {
 }
 
 .c_btnLightBlue {
-  background: #AADBFF;
+  background: #5AD2FF;
 }
 
 .c_btnFade.c_btnLightBlue:hover {
-  background: #78A9ED;
+  background: #1E96FF;
 }
 
 .table{
@@ -289,7 +290,20 @@ input:focus{
 }
 
 .popupBtn {
-    width: 80px;
+    width: 360px;
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    border-radius: 10px;
+    border-width: 1px;
+    background: transparent;
+    border-color: #0078FF;
+    color: #0078FF;
+}
+
+.popupBtn2 {
+    width: 170px;
     height: 30px;
     padding: 0;
     margin: 0;
@@ -303,4 +317,8 @@ input:focus{
 
 #additionalImg{
     width: 20px;
+}
+
+#title{
+    text-align: center;
 }

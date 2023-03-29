@@ -456,11 +456,7 @@
                   <!-- 팝업 내용 -->
                   const popupContent = document.createElement('p')
                   popupContent.textContent = todos[todo].content
-
-                  <!--팝업 닫기 버튼-->
-                  const closeBtn = document.createElement('button')
-                  closeBtn.setAttribute('class','closeBtn')
-                  closeBtn.textContent = '✖'
+                  popupContent.setAttribute('id','title')
 
                   <!-- 팝업 닫고 수정하는 거 만들기 -->
                   const modBtn = document.createElement('input')
@@ -473,16 +469,17 @@
                   const popupForm = document.createElement('form')
                   popupForm.setAttribute('action','/updateTodo')
                   popupForm.setAttribute('method','post')
+                  popupForm.setAttribute('class','popupBtn')
 
                   const tomorrowBtn = document.createElement('input')
-                  tomorrowBtn.setAttribute('class', 'popupBtn');
                   tomorrowBtn.setAttribute('type','submit')
+                  tomorrowBtn.setAttribute('class','popupBtn2')
                   tomorrowBtn.setAttribute('name','mode')
                   tomorrowBtn.setAttribute('value','내일 하기')
 
                   const deleteBtn = document.createElement('input')
-                  deleteBtn.setAttribute('class', 'popupBtn');
                   deleteBtn.setAttribute('type','submit')
+                  deleteBtn.setAttribute('class','popupBtn2')
                   deleteBtn.setAttribute('name','mode')
                   deleteBtn.setAttribute('value','삭제하기')
 
@@ -498,7 +495,6 @@
                   modalBoxDiv.appendChild(popupContent)
                   modalBoxDiv.appendChild(modBtn)
                   modalBoxDiv.appendChild(popupForm)
-                  modalBoxDiv.appendChild(closeBtn)
                   popupDiv.appendChild(backgroundDiv)
                   popupDiv.appendChild(modalBoxDiv)
 
@@ -511,7 +507,6 @@
                   }
 
                   popupBtn.addEventListener("click", open);
-                  closeBtn.addEventListener("click", close);
                   backgroundDiv.addEventListener("click", close);
                   modBtn.addEventListener("click",close);
                   addEventToModBtn(todos[todo].id)

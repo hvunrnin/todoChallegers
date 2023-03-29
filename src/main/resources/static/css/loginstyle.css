@@ -55,7 +55,7 @@ input:focus{
     outline : none;
 }
 
-#id, #pw, #name, #message {
+#id, #pw, #name, #message, #userContent, #startDate, #endDate, #userCategory, #category {
     background: transparent;
     border: none;
     border-left: none;
@@ -72,7 +72,13 @@ h4{
 
 button{
     width: 350px;
+}
+
+.buttons{
     margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .help{

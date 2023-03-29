@@ -2,20 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
 <head>
-    <link rel="stylesheet" href="/css/goalsnew.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Poppins:wght@400;700&display=swap"
-            rel="stylesheet"
-    >
+    <link rel="stylesheet" href="/css/loginstyle.css">
+    <link rel="stylesheet" href="/css/btn.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+    </style>
 </head>
 <body>
 <div class="container">
-    <h4>목표</h4>
     <form action="/goals/new" method="post" name = "goalForm" onsubmit="return checkNull();">
+        <div class="navigation">
+            <a href="/goals"><img id="back" src="/img/next.png"></a>
+            <p id="title">목표 생성</p>
+            <img id="hidden-back" src="/img/next.png">
+        </div>
         <div class="form-group">
             <input type="text" id="category" name="category" placeholder="목표를 입력하세요" value ="">
-            <button type="submit" class="plusGoaloutline plusGoalinline">확인</button>
+        </div>
+        <div class="buttons">
+            <button type="submit" class="w-btn-outline w-btn-blue-outline">확인</button>
         </div>
     </form>
 </div>
