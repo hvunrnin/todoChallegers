@@ -33,15 +33,14 @@ public class Todos {
     private int isRepeatSat;
     private int isRepeatSun;
     private int isChecked;
+    private String repeatMonthly;
 
-    private String repeat_monthly;
-
-    public String getRepeat_monthly() {
-        return repeat_monthly;
+    public String getRepeatMonthly() {
+        return repeatMonthly;
     }
 
-    public void setRepeat_monthly(String repeat_monthly) {
-        this.repeat_monthly = repeat_monthly;
+    public void setRepeatMonthly(String repeatMonthly) {
+        this.repeatMonthly = repeatMonthly;
     }
 
     public Integer getId() {return id;}

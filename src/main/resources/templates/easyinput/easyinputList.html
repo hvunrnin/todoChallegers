@@ -53,11 +53,11 @@
 
             for(todo in goal_todos) {
                 var value = "";
-                if(goal_todos[todo].repeat_monthly != null) {
+                if(goal_todos[todo].repeatMonthly != null) {
                     value = "매월 ";
                     const search = '.';
                     const replaceWith = ' ';
-                    const result = goal_todos[todo].repeat_monthly.split(search).join(replaceWith);
+                    const result = goal_todos[todo].repeatMonthly.split(search).join(replaceWith);
                     value += result;
                 }
                 else {

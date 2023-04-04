@@ -62,7 +62,7 @@ body {
         transform: translate(-50%);
         font-family: 'Nanum Gothic', sans-serif;
         display: grid;
-        grid-template-rows: 1fr 1.5fr 7fr;
+        grid-template-rows: 0.5fr 0.5fr 7fr;
         grid-template-columns: 450px 500px;
         gap: 0px 120px;
         grid-template-areas:
@@ -291,28 +291,30 @@ input:focus{
 
 .popupBtn {
     width: 360px;
-    height: 30px;
+    height: 40px;
     padding: 0;
-    margin: 0;
+    margin: 5px;
     text-align: center;
+    font-weight: bolder;
     border-radius: 10px;
     border-width: 1px;
-    background: transparent;
-    border-color: #0078FF;
-    color: #0078FF;
+    background: lightgray;
+    border-color: transparent;
+    color: black;
 }
 
 .popupBtn2 {
-    width: 170px;
-    height: 30px;
+    width: 175px;
+    height: 80px;
     padding: 0;
-    margin: 0;
+    margin: 5px;
     text-align: center;
+    font-weight: bolder;
     border-radius: 10px;
     border-width: 1px;
-    background: transparent;
-    border-color: #0078FF;
-    color: #0078FF;
+    background: lightgray;
+    border-color: transparent;
+    color: black;
 }
 
 #additionalImg{
@@ -321,4 +323,6 @@ input:focus{
 
 #title{
     text-align: center;
+    font-size: large;
+    font-weight: bolder;
 }

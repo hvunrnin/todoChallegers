@@ -1,34 +1,42 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
+<link rel="stylesheet" href="/css/btn.css">
 <body>
 <div class="container">
-    <h1>챌린지 만들기</h1>
+    <h4>챌린지 만들기</h4>
     <form name="createForm" action="/challenges/new" method="post">
         <div class="form-group">
-            <label for="title">title</label>
+            <!--            <label for="title">title</label>-->
             <input type="text" id="title" name="title" placeholder="타이틀을 입력하세요">
-            <br><label for="start_date">start_date</label>
+            <br><br><label for="start_date">start_date</label>
             <input type="date"
                    name="start_date"
                    id="start_date"
+                   data-placeholder="시작"
                    max="2024-12-31"
                    min="2023-03-01">
-            <br><label for="end_date">end_date</label>
+            <span style="font-size:1.5em; color: solid #6AAFE6;">
+                &nbsp;~
+            </span>
+            <label for="end_date">end_date</label>
             <input type="date"
                    id="end_date"
                    name="end_date"
                    max="2024-12-31"
-                   min="2023-03-01">
-            <br><label for="memo">memo</label>
-            <input type="text" id="memo" name="memo" placeholder="메모을 입력하세요">
+                   min="2023-03-01"><br>
+            <!--            <br><label for="memo">memo</label>-->
+            <br><input type="text" id="memo" name="memo" placeholder="메모을 입력하세요">
         </div>
-        <p>
-            <input type="button" id="check" value="확인" onclick="javascript: comparison();">
-            <input type="button" id="back" value="취소" onclick='location.href="/challengeList"'>
 
+        <p>
+            <button id="check" onclick="javascript: comparison();">확인</button>
         </p>
     </form>
+        <p>
+            <button id="back" onclick='location.href="/todolist"'>취소</button>
+        </p>
+
     <script type="text/javascript">
             function comparison() {
                 var createForm = document.createForm;
@@ -61,31 +69,75 @@
 
     </script>
     <style>
-        #title {
-            width: 80%;
-            height: 50px;
-            border-top: none;
+        h4{
+            font-size: 30px;
+        }
+        .container{
+            font-family: 'Nanum Gothic', sans-serif;
+            margin-top: 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            text-align: center;
+        }
+        #title, #memo {
+            background: transparent;
+            border: none;
             border-left: none;
             border-right: none;
-            border-bottom: 2px solid black;
-            text-align: center;
-        }
-        #memo{
-            width: 80%;
-            height: 50px;
             border-top: none;
-            border-left: none;
-            border-right: none;
-            border-bottom: 2px solid black;
-            text-align: center;
+            border-bottom: 2px solid #6AAFE6;
+            width: 500px;
+            height: 50px;
+
+        }
+        button{
+            position: relative;
+            border: none;
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-family: "paybooc-Light", sans-serif;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.25s;
+        }
+        input[type="date"] {
+            position:relative;
+            width: 150px;
+            height: 48px;
+            border:2px solid #6AAFE6;
+            border-radius: 12px;
+
+        }
+        input[type="date"]::-webkit-clear-button,
+        input[type="date"]::-webkit-inner-spin-button {
+            display:none;
+        }
+        input[type="date"]::-webkit-calender-picker-indicator {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            width: 100%;
+            background: transparent;
+            color: transparent;
+            cursor: pointer;
+        {
+
+        input[type="date"]::before {
+            content: attr(data-placeholder);
+            width: 100%;
+        }
+        input[type="date"]::valid::before{
+            display:none;
+        }
+        input[data-placeholder]::before {
+            color:#BABABA;
+            font-size: 20px;
         }
 
-        h1{
-            text-align: center;
-        }
-        input[type="date"]::-webkit-calendar-picker-indicator,
-
-<!--        input[type="date"]:valid{color:#c9c9c9;}-->
     </style>
 </div>
 

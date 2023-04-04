@@ -37,6 +37,8 @@ public class TodoController {
     String today = current_year + "-" + (current_month < 10 ? "0" + current_month : current_month) + "-" + (current_date < 10 ? "0" + current_date : current_date);
 
     String feed_date = today;
+    String onlyDate = String.valueOf(current_date);
+    String day = String.valueOf(now.getDayOfWeek().getValue()-1);
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -61,6 +63,8 @@ public class TodoController {
         model.addAttribute("year", current_year);
         model.addAttribute("month", current_month);
         model.addAttribute("feed_date", feed_date);
+        model.addAttribute("day",day);
+        model.addAttribute("onlyDate",onlyDate);
 //      은화
         List<Goals> goalsList = goalService.findGoals();
         model.addAttribute("goals", goalsList);
@@ -90,6 +94,8 @@ public class TodoController {
             current_month = date[1];
         } else if (feed_date != null) {
             feed_date = String.valueOf(btn_date.getFeed_date());
+            onlyDate = btn_date.getOnlyDate();
+            day = btn_date.getDay();
         }
         return "redirect:/todolist"; //접근 html
     }

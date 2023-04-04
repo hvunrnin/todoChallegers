@@ -5,37 +5,123 @@
     <title>상세페이지</title>
 </head>
 <body>
+<div class="container">
     <h1 th:text="${challenge.title}"></h1>
-        <input type="date"
-               id="start_date"
-               name="start_date"
-               th:value="${challenge.start_date}">
-        ~
-        <input type="date"
-               id="end_date"
-               name="end_date"
-               th:value="${challenge.end_date}">
+    <input type="date"
+           id="start_date"
+           name="start_date"
+           th:value="${challenge.start_date}">
+    ~
+    <input type="date"
+           id="end_date"
+           name="end_date"
+           th:value="${challenge.end_date}"><br><br>
+
+    <span style="font-size:2em; color: SlateBlue;">
+            <span id="dDay"></span>
+            일 남음~
+        </span>
     <script type="text/javascript">
-                document.getElementById("start_date").readOnly=true;
-                document.getElementById("end_date").readOnly=true;
+                    document.getElementById("start_date").readOnly=true;
+                    document.getElementById("end_date").readOnly=true;
 
-                const finalDay = document.querySelector("#end_date").value;
-                const today = new Date().toISOString().substring(0,10);
-                const diff = Date.parse(finalDay) - Date.parse(today);
+                    const finalDay = document.querySelector("#end_date").value;
+                    const today = new Date().toISOString().substring(0,10);
+                    const diff = Date.parse(finalDay) - Date.parse(today);
 
-                var diffDay = Math.floor(diff / (1000*60*60*24));
-                document.write(diffDay + "일 남았다!!!!!!!!!!!!!!!!!!");
-    </script><br>
-    <p><td th:text="${challenge.memo}"></td></p>
+                    var diffDay = Math.floor(diff / (1000*60*60*24));
+                    document.getElementById("dDay").innerHTML=diffDay;
+<!--                    document.write(diffDay + "일 남았다!!!!!!!!!!!!!!!!!!".fontsize(4).fontcolor("black"));-->
+        </script><br>
+    <span style="font-size:1.5em;">
+            <p><td th:text="${challenge.memo}" id="memo"></td></p>
+        </span>
+
+    <!--        <button type="button"-->
+    <!--                th:onclick="popup([[${challenge.title}]])">-->
+    <!--            오늘체크-->
+    <!--        </button>-->
+
+    <!--        <script type="text/javascript">-->
+    <!--            function popup(val){-->
+    <!--                var url = "/challenge/check.popup/title="+val;-->
+    <!--                window.open(url,'','width=530,height=100,location=no,status=no,scrollbars=no');-->
+    <!--                console.log(val);-->
+    <!--            }-->
+    <!--        </script>-->
+
+
+    <script type="text/javascript">
+            function getCookie(name) {
+                var cookie = document.cookie;
+                if (document.cookie != "") {
+                    var cookie_array = cookie.split("; ");
+                    for ( var index in cookie_array) {
+                        var cookie_name = cookie_array[index].split("=");
+                        if (cookie_name[0] == "popupYN") {
+                            return cookie_name[1];
+                        }
+                    }
+                }
+                return ;
+            }
+
+            function openPopup(val) {
+                var cookieCheck = getCookie("popupYN");
+                var url = "/challenge/check.popup/title="+val;
+                if (cookieCheck != "N"){
+                   window.open(url, '', 'width=450,height=100,left=0,top=0');
+                }
+            }
+
+        </script>
+    </head>
+
+<!--    <body th:onload="javascript:openPopup([[${challenge.title}]])">-->
+<!--    </body>-->
+
     <form id="delete-form" th:action="@{'/challenge/' + ${challenge.title}}" method="post">
         <input type="hidden" name="_method" value="delete"/>
-        <button id="delete-btn" onclick="delete_check();">삭제</button>
+        <button id="delete-btn" name=="delete-btn" onclick="delete_check();">삭제</button>
     </form>
-
-<script>
-    function delete_check(){
-        alert("삭제하였습니다~");
-    }
-</script>
+    <button id="back" onclick='location.href="/todolist"'>뒤로가기</button>
+    <script>
+            function delete_check(){
+                 alert("삭제하였습니다~");
+            }
+        </script>
+    <style>
+            .container{
+                font-family: 'Nanum Gothic', sans-serif;
+                margin-top: 100px;
+<!--                display: flex;-->
+                flex-direction: column;
+                gap: 30px;
+                text-align: center;
+            }
+            button{
+                position: relative;
+                border: none;
+                display: inline-block;
+                padding: 15px 30px;
+                border-radius: 15px;
+                font-family: "paybooc-Light", sans-serif;
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+                text-decoration: none;
+                font-weight: 600;
+                transition: 0.25s;
+            }
+            input[type="date"] {
+                position:relative;
+                width: 150px;
+                height: 48px;
+                border:2px solid #6AAFE6;
+                border-radius: 12px;
+            }
+            h1{
+                font-size: 60px;
+            }
+        </style>
+</div>
 </body>
 </html>

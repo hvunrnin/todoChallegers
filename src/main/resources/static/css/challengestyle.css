@@ -1,0 +1,27 @@
+.challengeBubble{
+    height: 60px;
+    width: 60px;
+    border-radius: 30px;
+    border-width: 0px;
+    padding: 0;
+    background: #5AD2FF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.challengeDiv{
+    display: flex;
+    flex-direction: column;
+    padding: 3px;
+}
+
+
+.dday{
+    font-weight: bolder;
+}
+
+a{
+    text-align: center;
+    text-decoration: none;
+}

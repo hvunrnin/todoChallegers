@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="/css/goalBtn.css">
   <link rel="stylesheet" href="/css/menu.css">
   <link rel="stylesheet" href="/css/popupstyle.css">
+  <link rel="stylesheet" href="/css/challengestyle.css">
 
   <script type = "text/javascript"></script>
 
@@ -62,31 +63,39 @@
                        name="start_date"
                        th:value="${challenge.start_date}">
 
+                <div th:id="${challenge.id}"></div>
                 <script th:inline="javascript">
-                var title = [[${challenge.title}]];
-                var start_date = [[${challenge.start_date}]];
-                var end_date = [[${challenge.end_date}]];
-                var today = new Date().toISOString().substring(0,10);
-                var diff = Date.parse(end_date) - Date.parse(today);
-                var diffDay = Math.floor(diff / (1000*60*60*24));
-            </script>
+                  var id = [[${challenge.id}]];
+                  var title = [[${challenge.title}]];
+                  var start_date = [[${challenge.start_date}]];
+                  var end_date = [[${challenge.end_date}]];
+                  var today = new Date().toISOString().substring(0,10);
+                  var diff = Date.parse(end_date) - Date.parse(today);
+                  var diffDay = Math.floor(diff / (1000*60*60*24));
 
-                <a th:href="@{'/challenge/'+${challenge.title}}">
-                  <script th:inline="javascript">
-                    if(diffDay>0 && start_date<=today){
-                        document.writeln(title);
-                    }
+                  if(diffDay>0 && start_date<=today){
+                    const challengeDiv = document.getElementById(id)
+                    challengeDiv.setAttribute('class','challengeDiv')
+
+                    const challengeBubble = document.createElement('button')
+                    challengeBubble.setAttribute('class','challengeBubble')
+                    challengeBubble.setAttribute('onclick',"location.href='/challenge/"+title+"';")
+
+                    const challengeDday = document.createElement('div')
+                    challengeDday.setAttribute('class','dday')
+                    challengeDday.textContent = "D-" + diffDay
+
+                    const challengeLink = document.createElement('a')
+                    challengeLink.setAttribute('href','/challenge/'+title)
+                    challengeLink.textContent = title
+
+                    challengeBubble.appendChild(challengeDday)
+                    challengeDiv.appendChild(challengeBubble)
+                    challengeDiv.appendChild(challengeLink)
+                  }
                 </script>
-                  </th:block>
-                </a>
-                <!--                </td>-->
-                <!--                <td>-->
-                <br>
-                <script th:inline="javascript">
-                if(diffDay>0 && start_date<=today){
-                    document.write("D-" + diffDay);
-                }
-            </script>
+
+                <!--css 한번 좀 만져보겠습니다-->
                 <!--                </td>-->
               </td>
               </tbody>
@@ -154,11 +163,36 @@
           var todos = new Array();
           [# th:each="todos : ${todos}"]
           if([[${id}]]==[[${todos.userId}]]){
-            if([[${feed_date}]]==[[${todos.date}]]){
+            if(checkStartEndDate([[${todos.startDate}]],[[${feed_date}]],[[${todos.endDate}]]) && [[${todos.orderNum}]]==-1){
+              if([[${todos.repeatMonthly}]] == null){
+                if([[${day}]] == "0" && [[${todos.isRepeatMon}]] == 1){ todos.push([[${todos}]]); }
+                else if([[${day}]] == "1" && [[${todos.isRepeatTue}]] == 1){ todos.push([[${todos}]]); }
+                else if([[${day}]] == "2" && [[${todos.isRepeatWed}]] == 1){ todos.push([[${todos}]]); }
+                else if([[${day}]] == "3" && [[${todos.isRepeatThu}]] == 1){ todos.push([[${todos}]]); }
+                else if([[${day}]] == "4" && [[${todos.isRepeatFri}]] == 1){ todos.push([[${todos}]]); }
+                else if([[${day}]] == "5" && [[${todos.isRepeatSat}]] == 1){ todos.push([[${todos}]]); }
+                else if([[${day}]] == "6" && [[${todos.isRepeatSun}]] == 1){ todos.push([[${todos}]]); }
+              }else{
+                const repeatMonthly = [[${todos.repeatMonthly}]].split(".");
+                for(i in repeatMonthly){
+                  if([[${onlyDate}]] == repeatMonthly[i]){
+                    todos.push([[${todos}]]);
+                    break;
+                  }
+                }
+              }
+            }
+            else if([[${feed_date}]]==[[${todos.date}]]){
               todos.push([[${todos}]]);
             }
           }
           [/]
+          function checkStartEndDate(startDate,feedDate,endDate){
+            if(startDate <= feedDate && feedDate <= endDate){return true;}
+            else{return false;}
+          }
+
+
           function sortByOrderNum(array){
               array.sort(function(a,b){return a.orderNum - b.orderNum})
           }
@@ -221,7 +255,7 @@
         h.push('<td></td>');
       }
       else{
-        h.push('<td><form action="/todolist" method="post"><button type="submit" name="feed_date" class="c_btn c_btnFade c_btnLightBlue" value="'+year+'-'+leftPad(month)+'-'+leftPad(data[i])+'"></button></form>'+data[i]+'</td>');
+        h.push('<td><form action="/todolist" method="post"><input type="hidden" name="day" value='+(i%7)+'><input type="hidden" name="onlyDate" value='+data[i]+'><button type="submit" name="feed_date" class="c_btn c_btnFade c_btnLightBlue" value="'+year+'-'+leftPad(month)+'-'+leftPad(data[i])+'"></button></form>'+data[i]+'</td>');
       }
     }
     console.log(h);
@@ -469,7 +503,6 @@
                   const popupForm = document.createElement('form')
                   popupForm.setAttribute('action','/updateTodo')
                   popupForm.setAttribute('method','post')
-                  popupForm.setAttribute('class','popupBtn')
 
                   const tomorrowBtn = document.createElement('input')
                   tomorrowBtn.setAttribute('type','submit')

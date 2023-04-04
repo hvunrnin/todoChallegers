@@ -99,7 +99,7 @@ public class EasyInputController {
             todo.setIsRepeatFri(0);
             todo.setIsRepeatSat(0);
             todo.setIsRepeatSun(0);
-            todo.setRepeat_monthly(form.getMonthCheck());
+            todo.setRepeatMonthly(form.getMonthCheck());
         }
 
         todoService.join(todo);
@@ -141,7 +141,7 @@ public class EasyInputController {
         todo.get().setIsRepeatFri(1);
         todo.get().setIsRepeatSat(1);
         todo.get().setIsRepeatSun(1);
-        todo.get().setRepeat_monthly(null);
+        todo.get().setRepeatMonthly(null);
 
         /* everyweek */
         if(form.getEveryCheck().equals("everyweek")) {
@@ -163,7 +163,7 @@ public class EasyInputController {
             todo.get().setIsRepeatFri(0);
             todo.get().setIsRepeatSat(0);
             todo.get().setIsRepeatSun(0);
-            todo.get().setRepeat_monthly(form.getMonthCheck());
+            todo.get().setRepeatMonthly(form.getMonthCheck());
         }
         if(form.getDelete().equals("delete")) {
             todoService.delete(todo.get().getId());
